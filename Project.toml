@@ -3,6 +3,9 @@ uuid = "fe716879-2e18-4081-b090-62ad3424aa7d"
 authors = ["Bas Knaake <bas.knaake@deltares.nl>"]
 version = "1.0.0-DEV"
 
+[deps]
+Atlans = "1fcd1f08-fdb6-477a-a0aa-3f8f0df25597"
+
 [compat]
 julia = "1.6.7"
 

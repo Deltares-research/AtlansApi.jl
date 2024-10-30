@@ -1,5 +1,7 @@
 module AtlansApi
 
-# Write your package code here.
+using Atlans
+using HTTP
 
-end
+
+end # module AlansApi
