@@ -2,6 +2,7 @@ module AtlansApi
 
 using Atlans
 using HTTP
+using JSON3
 using NCDatasets
 using DataFrames
 using GeoJSON

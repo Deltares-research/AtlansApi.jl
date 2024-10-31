@@ -64,13 +64,12 @@ payload = JSON3.write(
     )
 )
 
-url = "/run"
-headers = Dict("Content-Type" => "application/json")
+url = "http://127.0.0.1:8081/run"
+headers = ["Content-Type" => "application/json"]
 req = HTTP.Request("POST", url, headers, payload)
 
-data = JSON3.read(String(req.body))
+res = AtlansApi.run_model(req)
 
-groundwater = data[:gw]
-features = GeoJSON.read(JSON3.write(data[:geojson]))
+# response = HTTP.post(url, headers, payload)
+# println("Response: ", String(res.body))
 
-gdf = AtlansApi.dataframe_from_features(features)
