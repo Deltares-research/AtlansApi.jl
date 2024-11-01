@@ -23,34 +23,34 @@ struct GeoTop
 end
 
 
-function BoundingBox(geojson)
-    extent = GeoInterface.extent(geojson)
-    xbounds = extent[1]
-    ybounds = extent[2]
-    BoundingBox(xbounds[1], ybounds[1], xbounds[2], ybounds[2])
+function BoundingBox(points::Vector{Shapefile.Point})
+    xmin = minimum(p.x for p in points)
+    xmax = maximum(p.x for p in points)
+    ymin = minimum(p.y for p in points)
+    ymax = maximum(p.y for p in points)
+    BoundingBox(xmin, ymin, xmax, ymax)
 end
 
 
 function Features(features::JSON3.Object)
-    features = GeoJSON.read(JSON3.write(features))
-
-    bbox = BoundingBox(features)
-    
     points = Vector{Shapefile.Point}()
+    parts = Vector{Int32}()
     thickness = Vector{Number}()
     fid = Vector{Number}()
-    parts = Vector{Int32}()
 
     pa = 0
-    for feature in collect(features)
+    for feature in features[:features]
         pts = [Shapefile.Point(p[1], p[2]) for p in feature.geometry.coordinates[1]]
         append!(points, pts)
         push!(parts, pa)
         pa += length(pts)
     end
 
+    bbox = BoundingBox(points)
+
     pol = Shapefile.Polygon(
         Shapefile.Rect(bbox.xmin, bbox.ymin, bbox.xmax, bbox.ymax), parts, points
     )
+
     Features(pol, fid, thickness, bbox)
 end
