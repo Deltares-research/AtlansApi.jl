@@ -43,6 +43,8 @@ function Features(features::JSON3.Object)
         pts = [Shapefile.Point(p[1], p[2]) for p in feature.geometry.coordinates[1]]
         append!(points, pts)
         push!(parts, pa)
+        push!(fid, feature.properties[:id])
+        push!(thickness, feature.properties[:dikte])
         pa += length(pts)
     end
 

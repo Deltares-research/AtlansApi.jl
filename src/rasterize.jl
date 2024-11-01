@@ -7,7 +7,7 @@ the modelling area of GeoTop.
 function rasterize_like(features::Features, geotop::GeoTop)
     rings = features_to_rings(features)
     target = get_target_raster(geotop)
-    rasterize!(last, target, rings; fill=1:length(rings))
+    rasterize!(last, target, rings; fill=features.fids)
 end
 
 
@@ -27,8 +27,7 @@ function get_target_raster(geotop::GeoTop)
     zeros(UInt32, dimz; missingval=UInt32(0))
 end
 
+
 function features_to_rings(features::Features)
     collect(GeoInterface.getring(features.polygon))
 end
-
-
