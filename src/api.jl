@@ -3,12 +3,11 @@ function run_model(req::HTTP.Request)
         data = JSON3.read(String(req.body))
 
         gw = data[:gw]
-        features = data[:geojson]
-        features = GeoJSON.read(JSON3.write(features))
+        features = Features(data[:geojson])
 
-        if isa(gw, Number) && isa(features, GeoJSON.FeatureCollection)
-            df = dataframe_from_features(features)
-            result = df[!, :thickness] .- gw
+        if isa(gw, Number) && isa(features, Features)
+            result = run_model(features, gw)
+
             return HTTP.Response(200, JSON3.write(Dict("result" => result)))
         else
 			return HTTP.Response(

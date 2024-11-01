@@ -12,3 +12,10 @@ function select_within_extent(geotop::Dataset, bbox::BoundingBox)
     
     GeoTop(x, y, z, strat, litho)
 end
+
+
+function read_geotop(url::AbstractString, bbox::BoundingBox)
+    geotop = Dataset(url) do ds
+        select_within_extent(ds, bbox)
+    end
+end
