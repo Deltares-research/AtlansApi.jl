@@ -7,8 +7,8 @@ function run_model(req::HTTP.Request)
         features = GeoJSON.read(JSON3.write(features))
 
         if isa(gw, Number) && isa(features, GeoJSON.FeatureCollection)
-            df = features_to_dataframe(features)
-            result = df[!, :thicknes] .- gw
+            df = dataframe_from_features(features)
+            result = df[!, :thickness] .- gw
             return HTTP.Response(200, JSON3.write(Dict("result" => result)))
         else
 			return HTTP.Response(

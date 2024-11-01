@@ -2,12 +2,9 @@ using Revise
 using AtlansApi
 using JSON3
 using HTTP
-using GeoJSON
-using GeoDataFrames
 
-gw_value = 12.34  # voorbeeld float waarde voor gw
+gw_value = 12.34
 
-# Definieer de GeoJSON-feature data zoals gegeven
 features_data = Dict(
     "type" => "FeatureCollection",
     "features" => [
@@ -56,7 +53,6 @@ features_data = Dict(
     )
 )
 
-# Maak een JSON-object met "gw" en "features" velden
 payload = JSON3.write(
     Dict(
         "gw" => gw_value,
@@ -66,10 +62,6 @@ payload = JSON3.write(
 
 url = "http://127.0.0.1:8081/run"
 headers = ["Content-Type" => "application/json"]
-req = HTTP.Request("POST", url, headers, payload)
-
-res = AtlansApi.run_model(req)
-
-# response = HTTP.post(url, headers, payload)
-# println("Response: ", String(res.body))
+response = HTTP.post(url, headers, payload)
+println("Response: ", String(response.body))
 
