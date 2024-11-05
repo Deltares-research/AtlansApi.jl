@@ -1,0 +1,15 @@
+services:
+  # Altans API service
+  atlans-api:
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile
+      target: production
+    restart: always
+    ports:
+      - "8000:80"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=80
+    volumes:
+      - ./data:/app/data
