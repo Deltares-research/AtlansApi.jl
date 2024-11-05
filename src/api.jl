@@ -20,14 +20,16 @@ function run_model(req::HTTP.Request)
 end
 
 
-function session()
+function session(host::String, port::Int)
 	router = HTTP.Router() do req
+		println("HTTP: \"$(req.method) $(req.target)\"")
+
 		if req.method == "POST" && req.target == "/run"
 			run_model(req)
 		else
 			HTTP.Response(404, "Endpoint not found")
 		end
 	end
-	# Start de server op poort 8081
-	HTTP.serve(router, "127.0.0.1", 8081)
+
+	HTTP.serve(router, host, port);
 end
