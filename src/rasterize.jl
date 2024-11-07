@@ -25,20 +25,20 @@ function rasterize_like(features::Features, geotop::GeoTop, field::Symbol)
     for fid in features.fids
         field_raster[fid_raster .== fid] .= field_values[fid]
     end
-    return field_raster
+    Raster(field_raster, fid_raster.dims)
 end
 
 
 function get_target_raster(geotop::GeoTop)
     dimz = (
-        Y(
-            Projected(
-                geotop.y[1]:100:geotop.y[end]; crs=EPSG(28992)
-            )
-        ),
         X(
             Projected(
                 geotop.x[1]:100:geotop.x[end]; crs=EPSG(28992)
+            )
+        ),
+        Y(
+            Projected(
+                geotop.y[1]:-100:geotop.y[end]; crs=EPSG(28992)
             )
         )
     )
