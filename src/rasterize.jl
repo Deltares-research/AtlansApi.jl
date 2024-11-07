@@ -11,6 +11,18 @@ function rasterize_like(features::Features, geotop::GeoTop)
 end
 
 
+function rasterize_like(features::Features, geotop::GeoTop, field::Symbol)
+    fid_raster = rasterize_like(features, geotop)
+
+    field_values = getproperty(features, field)
+    field_raster = fill(NaN, size(fid_raster))
+    for fid in features.fids
+        field_raster[fid_raster .== fid] .= field_values[fid]
+    end
+    return field_raster
+end
+
+
 function get_target_raster(geotop::GeoTop)
     dimz = (
         Y(
