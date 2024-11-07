@@ -3,6 +3,16 @@ using AtlansApi
 using JSON3
 using HTTP
 
+
+function post_request(url, headers, payload)
+    try
+        response = HTTP.post(url, headers, payload)
+        return response
+    catch e
+        return e
+    end
+end
+
 gw_value = 12.34
 
 features_data = Dict(
@@ -62,5 +72,7 @@ payload = JSON3.write(
 
 url = "http://127.0.0.1:8081/run"
 headers = ["Content-Type" => "application/json"]
-response = HTTP.post(url, headers, payload)
-println("Response: ", String(response.body))
+
+result = post_request(url, headers, payload)
+
+println("Response: ", String(result.body))
