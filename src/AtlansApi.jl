@@ -13,6 +13,7 @@ abstract type AbstractFeatures end
 
 const GEOTOP_URL = raw"https://dinodata.nl/opendap/GeoTOP/geotop.nc"
 
+include("example/sample.jl")
 include("base.jl")
 include("build.jl")
 include("rasterize.jl")
