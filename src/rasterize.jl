@@ -11,6 +11,12 @@ function rasterize_like(features::Features, geotop::GeoTop)
 end
 
 
+"""
+    rasterize_like(features::GeoJSON.FeatureCollection, geotop::GeoTop, field::Symbol)
+
+Rasterize a field of an incoming geojson with polygons within the 2D raster extent of
+the modelling area of GeoTop.
+"""
 function rasterize_like(features::Features, geotop::GeoTop, field::Symbol)
     fid_raster = rasterize_like(features, geotop)
 

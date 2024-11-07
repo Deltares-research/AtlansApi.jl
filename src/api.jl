@@ -9,10 +9,6 @@ function run_model(req::HTTP.Request)
             result = run_model(features, gw)
 
             return HTTP.Response(200, JSON3.write(Dict("result" => result)))
-        else
-			return HTTP.Response(
-                400, JSON3.write(Dict("error" => "Input must be numeric"))
-            )
 		end
 	catch e
 		return HTTP.Response(400, JSON3.write(Dict("error" => "Invalid input")))
