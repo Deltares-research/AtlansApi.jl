@@ -2,6 +2,7 @@ module AtlansApi
 
 using Atlans
 using DataFrames
+using Dates
 using HTTP
 using JSON3
 using NCDatasets
@@ -12,6 +13,7 @@ using Rasters
 abstract type AbstractFeatures end
 
 const GEOTOP_URL = raw"https://dinodata.nl/opendap/GeoTOP/geotop.nc"
+const RaisedSand = 99
 
 include("example/sample.jl")
 include("base.jl")
