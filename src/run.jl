@@ -1,8 +1,15 @@
-using Atlans: Model # dispatch Model to AtlansApi implementation
+import Atlans: Model # dispatch Model to AtlansApi implementation
 
 const AdaptiveCellsize = Atlans.AdaptiveCellsize(0.25, 0.01) # Δzmax, split_tolerance
 const TimeDiscretization = Atlans.ExponentialTimeStepper(1.0, 2) # start day, multiplier
+const ConsolidationMethod = Atlans.DrainingAbcIsotache
+const PreConsolidationMethod = Atlans.Preconsolidation
+const OxidationMethod = Atlans.NullOxidation # Ignore oxidation process
+const ShrinkageMethod = Atlans.NullShrinkage # Ignore shrinkage process
 
+
+function Model(geotop::GeoTop, ahn::Raster)
+end
 
 """
 Temp function for testing

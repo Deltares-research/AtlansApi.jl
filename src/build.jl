@@ -31,6 +31,17 @@ function read_geotop(url::AbstractString, bbox::BoundingBox)
 end
 
 
+function group_stratigraphy!(geotop::GeoTop)
+    for idx in eachindex(geotop.strat)
+        if geotop.strat[idx] in HoloceneUnits
+            geotop.strat[idx] = 1
+        else
+            geotop.strat[idx] = 2
+        end
+    end
+end
+
+
 function create_xcoord!(ds::Dataset, x::Vector{Float64})
     defVar(
         ds,
