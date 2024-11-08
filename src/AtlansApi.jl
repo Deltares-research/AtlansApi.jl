@@ -10,8 +10,9 @@ using GeoInterface
 using Shapefile
 using Rasters
 
-abstract type AbstractFeatures end
+abstract type AbstractSpatial end # Means subtypes will have field :bbox
 
+include("example/sample.jl") 
 include("constants.jl")
 
 const GEOTOP_URL = raw"https://dinodata.nl/opendap/GeoTOP/geotop.nc"
@@ -28,7 +29,6 @@ const ParamTable = Dict(
     :c_v => Dict(zip(KEYS, C_V))
 )
 
-include("example/sample.jl")
 include("base.jl")
 include("build.jl")
 include("rasterize.jl")

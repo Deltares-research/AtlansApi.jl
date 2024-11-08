@@ -6,7 +6,7 @@ struct BoundingBox
 end
 
 
-struct Features <: AbstractFeatures
+struct Features <: AbstractSpatial
     polygon::Any
     fids::Vector{Number}
     thickness::Vector{Number}
@@ -14,12 +14,13 @@ struct Features <: AbstractFeatures
 end
 
 
-struct GeoTop
+struct GeoTop <: AbstractSpatial
     x::Array{Number}
     y::Array{Number}
     z::Array{Number}
     strat::Array{Union{Missing, Int16}}
     litho::Array{Union{Missing, Int16}}
+    bbox::BoundingBox
 end
 
 
