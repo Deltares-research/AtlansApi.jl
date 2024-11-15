@@ -11,7 +11,7 @@ function GeoTop(geotop::Dataset, bbox::BoundingBox)
     ymin = bbox.ymin - yres
 
     subset = NCDatasets.@select(
-        geotop[:strat], $xmin <= x < $bbox.xmax && $ymin <= y < $bbox.ymax
+        geotop[:strat], $xmin < x < $bbox.xmax && $ymin < y < $bbox.ymax
     )
 
     x = subset[:x][:]  .+ 0.5xres # Change coordinates to cellcenters
@@ -20,6 +20,13 @@ function GeoTop(geotop::Dataset, bbox::BoundingBox)
     strat = permutedims(reverse(subset[:strat][:, :, :]; dims=2), (1, 3, 2))
     litho = permutedims(reverse(subset[:lithok][:, :, :]; dims=2), (1, 3, 2))
     
+    bbox = BoundingBox(
+        minimum(x) - 0.5xres,
+        minimum(y) - 0.5yres,
+        maximum(x) + 0.5xres,
+        maximum(y) + 0.5yres,
+    )
+
     GeoTop(x, y, z, strat, litho, bbox)
 end
 

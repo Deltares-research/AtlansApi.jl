@@ -21,7 +21,7 @@ function simple_payload()
                         "geometry" => Dict(
                             "type" => "Polygon",
                             "coordinates" => [
-                                [[200, 500], [300, 500], [200, 200], [200, 500]]
+                                [[210, 570], [380, 570], [210, 410], [210, 570]]
                             ]
                         )
                     ),
@@ -32,7 +32,7 @@ function simple_payload()
                         "geometry" => Dict(
                             "type" => "Polygon",
                             "coordinates" => [
-                                [[400, 300], [400, 100], [300, 300], [400, 300]]
+                                [[490, 390], [490, 110], [330, 250], [490, 390]]
                             ]
                         )
                     ),
