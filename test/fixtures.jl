@@ -20,7 +20,9 @@ function simple_payload()
                         "properties" => Dict("id" => 1, "dikte" => 1.2),
                         "geometry" => Dict(
                             "type" => "Polygon",
-                            "coordinates" => [[[2, 5], [3, 5], [2, 2], [2, 5]]]
+                            "coordinates" => [
+                                [[200, 500], [300, 500], [200, 200], [200, 500]]
+                            ]
                         )
                     ),
                     Dict(
@@ -29,7 +31,9 @@ function simple_payload()
                         "properties" => Dict("id" => 2, "dikte" => 0.8),
                         "geometry" => Dict(
                             "type" => "Polygon",
-                            "coordinates" => [[[4, 3], [4, 1], [3, 3], [4, 3]]]
+                            "coordinates" => [
+                                [[400, 300], [400, 100], [300, 300], [400, 300]]
+                            ]
                         )
                     ),
                 ],
@@ -51,8 +55,8 @@ end
 
 function thickness_raster()
     dims = (
-        X(Projected(1.:1:5.; crs=EPSG(28992))),
-        Y(Projected(5.:-1:1.; crs=EPSG(28992)))
+        X(Projected(100.:100:500.; crs=EPSG(28992))),
+        Y(Projected(500.:-100:100.; crs=EPSG(28992)))
     )
     values = [
         NaN 1.2 1.2 NaN NaN;
@@ -65,24 +69,39 @@ function thickness_raster()
 end
 
 
-function simple_nc()
-    raster = thickness_raster()
-    xco = Vector(raster.dims[1].val)
-    yco = Vector(raster.dims[2].val)
+function geotop_nc()
+    xco = yco = Vector(100.0:100:500.0)
+    z = Vector(-2:0.5:-0.5)
 
     filename = tempname()
     ds = Dataset(filename, "c") do ds
         defDim(ds, "x", length(xco))
         defDim(ds, "y", length(yco))
-        defDim(ds, "layer", 1)
+        defDim(ds, "z", 4)
         AtlansApi.create_xcoord!(ds, xco)
         AtlansApi.create_ycoord!(ds, yco)
-        defVar(ds, "layer", [1], ("layer",))
+        defVar(ds, "z", z, ("z",))
         
-        lithology = defVar(ds, "lithology", Int64, ("x", "y", "layer"))
-        lithology .= 1
+        strat = defVar(ds, "strat", Int64, ("z", "y", "x"))
+        lith = defVar(ds, "lithok", Int64, ("z", "y", "x"))
+        
+        strat .= [
+            2 2 2 2 2; 2 2 2 2 2; 2 2 2 2 2; 1 1 1 1 1;;;
+            2 2 2 2 2; 2 1 1 2 2; 2 1 1 1 2; 1 1 1 1 1;;;
+            2 2 2 2 2; 2 2 1 2 2; 2 2 1 1 2; 1 1 1 1 1;;;
+            2 2 2 2 2; 2 2 1 1 2; 2 2 1 1 2; 1 1 1 1 1;;;
+            2 2 2 2 2; 2 2 2 2 2; 2 1 1 1 1; 1 1 1 1 1
+        ]
+        lith .= [
+            3 3 3 2 3; 1 1 2 1 1; 1 1 3 2 3; 2 3 1 2 2;;;
+            1 1 2 2 1; 3 1 1 2 3; 2 3 2 2 3; 2 1 3 3 2;;;
+            1 2 3 3 2; 3 1 2 2 3; 2 3 2 3 2; 3 2 2 1 3;;;
+            3 3 2 1 3; 2 3 3 1 2; 3 2 1 1 3; 1 2 3 1 2;;;
+            1 3 2 1 3; 3 2 1 3 3; 3 1 2 1 2; 3 2 3 1 1
+        ]
     end
     return filename
 end
+
 
 end # module AtlansApiFixtures

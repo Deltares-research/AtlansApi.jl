@@ -6,12 +6,12 @@ Select GeoTop data for a selected bounding box from a NCDatasets.Dataset.
 function GeoTop(geotop::Dataset, bbox::BoundingBox)
     xres = yres = 100
     zres = 0.5
-    
+
     xmin = bbox.xmin - xres
     ymin = bbox.ymin - yres
 
     subset = NCDatasets.@select(
-        geotop[:strat], $xmin <= x <= $bbox.xmax && $ymin <= y <= $bbox.ymax
+        geotop[:strat], $xmin <= x < $bbox.xmax && $ymin <= y < $bbox.ymax
     )
 
     x = subset[:x][:]  .+ 0.5xres # Change coordinates to cellcenters
