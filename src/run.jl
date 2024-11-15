@@ -21,7 +21,7 @@ end
 
 
 function run_model(features::Features, groundwater::Number)
-    geotop = read_geotop(GEOTOP_URL, features.bbox)        
+    geotop = GeoTop(GEOTOP_URL, features.bbox)        
     thickness = rasterize_like(features, geotop, :thickness)
     calc_mean(thickness) + groundwater
 end

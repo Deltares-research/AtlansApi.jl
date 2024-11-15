@@ -1,4 +1,9 @@
-function select_within_extent(geotop::Dataset, bbox::BoundingBox)
+"""
+    GeoTop(geotop::Dataset, bbox::BoundingBox)
+
+Select GeoTop data for a selected bounding box from a NCDatasets.Dataset.
+"""
+function GeoTop(geotop::Dataset, bbox::BoundingBox)
     xres = yres = 100
     zres = 0.5
     
@@ -20,13 +25,13 @@ end
 
 
 """
-    read_geotop(url::AbstractString, bbox::BoundingBox)
+    GeoTop(url::AbstractString, bbox::BoundingBox)
 
 Read GeoTop data directly from the Opendap server for a selected area in a bounding box.
 """
-function read_geotop(url::AbstractString, bbox::BoundingBox)
+function GeoTop(url::AbstractString, bbox::BoundingBox)
     geotop = Dataset(url) do ds
-        select_within_extent(ds, bbox)
+        GeoTop(ds, bbox)
     end
 end
 
