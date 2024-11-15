@@ -126,3 +126,22 @@ function create_surcharge(thickness::Raster)
         ParamTable
     )
 end
+
+
+"""
+    read_ahn(path::AbstractString, bbox::BoundingBox)
+
+Read a 100x100 meter resolution tif of AHN data.
+"""
+function read_ahn(path::AbstractString, bbox::BoundingBox)
+    xres = yres = 100
+    ahn = Raster(path)
+    xcenters = ahn.dims[1] .+ 0.5xres
+    ycenters = ahn.dims[2] .- 0.5yres
+    new_dims = (
+        X(Projected(xcenters[1]:100:xcenters[end]; crs=EPSG(28992))),
+        Y(Projected(ycenters[1]:-100:ycenters[end]; crs=EPSG(28992)))
+    )
+    ahn = Raster(ahn.data, new_dims)
+    return ahn[X(bbox.xmin .. bbox.xmax), Y(bbox.ymin .. bbox.ymax)]
+end

@@ -104,4 +104,28 @@ function geotop_nc()
 end
 
 
+function ahn()
+    dims = (
+        X(Projected(100:100:500; crs=EPSG(28992))),
+        Y(Projected(600:-100:100; crs=EPSG(28992)))
+    )
+    values = [
+        0 0 0 0 0 0;
+        0 0.05 -0.05 0 0 0;
+        0 0 0 0 0 0;
+        0 0 0 -0.02 0.02 0;
+        0 0 0 0 0 0;
+    ]
+    Raster(values, dims)
+end
+
+
+function ahn_path()
+    a = ahn()
+    tempfile = "$(tempname()).tif"
+    write(tempfile, a)
+    return tempfile
+end
+
+
 end # module AtlansApiFixtures

@@ -1,5 +1,6 @@
 using Revise
 using AtlansApi
+using ArchGDAL
 using Atlans
 using JSON3
 using Rasters
