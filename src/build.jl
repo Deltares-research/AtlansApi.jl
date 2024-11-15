@@ -44,12 +44,12 @@ end
 
 
 function group_stratigraphy!(geotop::GeoTop)
-    for idx in eachindex(geotop.strat)
-        if geotop.strat[idx] in HoloceneUnits
-            geotop.strat[idx] = 1
-        else
-            geotop.strat[idx] = 2
-        end
+    for unit in HoloceneUnits
+        replace!(geotop.strat, unit => 1)
+    end
+    for unit in unique(geotop.strat)
+        ismissing(unit) | unit == 1 && continue
+        replace!(geotop.strat, unit => 2)
     end
 end
 
