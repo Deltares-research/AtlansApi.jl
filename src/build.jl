@@ -4,8 +4,7 @@
 Select GeoTop data for a selected bounding box from a NCDatasets.Dataset.
 """
 function GeoTop(geotop::Dataset, bbox::BoundingBox)
-    xres = yres = 100
-    zres = 0.5
+    xres, yres = GeotopResolution
 
     xmin = bbox.xmin - xres
     ymin = bbox.ymin - yres
@@ -16,7 +15,7 @@ function GeoTop(geotop::Dataset, bbox::BoundingBox)
 
     x = subset[:x][:]  .+ 0.5xres # Change coordinates to cellcenters
     y = reverse(subset[:y][:] .+ 0.5yres)
-    z = subset[:z][:] .+ 0.5zres
+    z = subset[:z][:] .+ 0.5DzGeotop
     strat = permutedims(reverse(subset[:strat][:, :, :]; dims=2), (1, 3, 2))
     litho = permutedims(reverse(subset[:lithok][:, :, :]; dims=2), (1, 3, 2))
     
@@ -144,4 +143,100 @@ function read_ahn(path::AbstractString, bbox::BoundingBox)
     )
     ahn = Raster(ahn.data, new_dims)
     return ahn[X(bbox.xmin .. bbox.xmax), Y(bbox.ymin .. bbox.ymax)]
+end
+
+
+function shift_down(thickness, strat, litho, surface, modelbase)
+    ztop = modelbase .+ cumsum(thickness)
+    split_idx = findlast(ztop .< surface)
+
+    new_thickness_voxel = surface - ztop[split_idx]
+
+    if new_thickness_voxel > 0.1
+        split_idx += 1
+        thickness[split_idx] = new_thickness_voxel
+    else
+        thickness[split_idx] -= new_thickness_voxel
+    end
+    
+    thickness = thickness[1:split_idx]
+    strat = strat[1:split_idx]
+    litho = litho[1:split_idx]
+
+    return thickness, strat, litho    
+end
+
+
+function shift_up(thickness, strat, litho, surface, modelbase)
+    top_idx = length(thickness)
+    extra_thickness = surface - (modelbase + sum(thickness))
+
+    if extra_thickness > 0.1
+        push!(thickness, extra_thickness)
+        push!(strat, strat[top_idx])
+        push!(litho, litho[top_idx])
+    else
+        thickness[top_idx] += extra_thickness
+    end
+    return thickness, strat, litho
+end
+
+
+function add_antropogenic(thickness, strat, litho, difference)
+    antropogenic = 0
+    holocene = 1
+    push!(thickness, difference)
+    push!(strat, holocene)
+    push!(litho, antropogenic)
+    return thickness, strat, litho
+end
+
+
+"""
+    prepare_voxelstack(
+        z::Vector{Number},
+        surface::Number,
+        strat::Vector{Number},
+        litho::Vector{Number}
+    )
+
+Create an Atlantis `VerticalDomain` from a voxelstack of GeoTOP. This checks the depths
+against the surface level elevation and corrects voxel thicknesses that are above or below
+the surface level. If the surface level elevation is more than 2 meters higher than the
+elevation of the highest voxel, a layer of antropogenic material is added with the appropriate
+thickness.
+
+# Arguments:
+- `z`: NAP Depth of each voxel.
+- `surface`: Surface level elevation in NAP.
+- `strat`: Stratigraphic unit of each voxel.
+- `litho`: Lithology of each voxel.
+"""
+function prepare_voxelstack(z, surface, strat, litho)
+    base_idx = findfirst(.!ismissing.(strat))
+    top_idx = findlast(.!ismissing.(strat))
+
+    modelbase = domainbase = z[base_idx] - 0.5DzGeotop
+    thickness = fill(DzGeotop, length(base_idx:top_idx))
+    strat = strat[base_idx:top_idx]
+    litho = litho[base_idx:top_idx]
+
+    ztop = modelbase + sum(thickness)
+
+    surface_difference = surface - ztop
+
+    if surface_difference < 0
+        thickness, strat, litho = shift_down(
+            thickness, strat, litho, surface, modelbase
+        )
+    elseif 2 > surface_difference > 0
+        thickness, strat, litho = shift_up(thickness, strat, litho, surface, modelbase)
+    elseif surface_difference > 2
+        thickness, strat, litho = add_antropogenic(
+            thickness, strat, litho, surface_difference
+        )
+    end
+    Atlans.prepare_domain(
+        domainbase, modelbase, surface, thickness, AdaptiveCellsize.Δzmax, strat, litho
+    )
 end

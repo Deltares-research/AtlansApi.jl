@@ -1,4 +1,11 @@
 @testset "build" begin
+    function voxelstack()
+        z = [-2.25, -1.75, -1.25, -0.75, -0.25]
+        strat = [2, 2, 2, 1, 1]
+        litho = [3, 2, 1, 3, 2]
+        return z, strat, litho
+    end
+
     @testset "create_surcharge" begin
         t = Fixtures.thickness_raster()
 
@@ -53,5 +60,23 @@
         )
         AtlansApi.group_stratigraphy!(gtp)
         @test all(skipmissing(gtp.strat) .== skipmissing([2 2 1; 2 1 missing]))
+    end
+
+    @testset "shift_down" begin
+        modelbase = -2.5
+        
+        surface = -0.05
+        _, strat, litho = voxelstack()
+        Δz = fill(0.5, length(strat))
+
+        Δz, strat, litho = AtlansApi.shift_down(Δz, strat, litho, surface, modelbase)
+        @test all(Δz .== [0.5, 0.5, 0.5, 0.5, 0.45])
+        @test all(strat .== [2, 2, 2, 1, 1])
+        @test all(litho .== [3, 2, 1, 3, 2])
+
+        surface = -0.47
+        _, strat, litho = voxelstack()
+        Δz = fill(0.5, length(strat))
+
     end
 end
