@@ -41,4 +41,17 @@
         @test all(ycoords .== 550:-100:150)
         @test all(ahn.data .== [0 0.05 -0.05 0 0; 0 0 0 0 0; 0 0 0 -0.02 0.02])
     end
+
+    @testset "group_stratigraphy" begin
+        gtp = AtlansApi.GeoTop(
+            [1],
+            [2],
+            [3],
+            [5020 3100 1100; 3025 1090 missing],
+            [1 2; 2 missing],
+            AtlansApi.BoundingBox(1, 1, 3, 3)
+        )
+        AtlansApi.group_stratigraphy!(gtp)
+        @test all(skipmissing(gtp.strat) .== skipmissing([2 2 1; 2 1 missing]))
+    end
 end

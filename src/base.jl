@@ -15,11 +15,11 @@ end
 
 
 struct GeoTop <: AbstractSpatial
-    x::Array{Number}
-    y::Array{Number}
-    z::Array{Number}
-    strat::Array{Union{Missing, Int16}}
-    litho::Array{Union{Missing, Int16}}
+    x::Array{Real}
+    y::Array{Real}
+    z::Array{Real}
+    strat::Array{Union{Missing, Real}}
+    litho::Array{Union{Missing, Real}}
     bbox::BoundingBox
 end
 
