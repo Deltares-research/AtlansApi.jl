@@ -43,6 +43,9 @@ const ParamTable = Dict(
 # API constants
 const RaisedSand = 99
 
+# TEMP
+const AHN_PATH = raw"p:\430-tgg-data\ahn\dtm_100m.tif" # FIXME: Get solution for AHN_PATH
+
 include("base.jl")
 include("build.jl")
 include("rasterize.jl")

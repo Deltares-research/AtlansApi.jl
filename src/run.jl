@@ -65,7 +65,40 @@ end
 
 
 function run_model(features::Features, groundwater::Number)
-    geotop = GeoTop(GEOTOP_URL, features.bbox)        
-    thickness = rasterize_like(features, geotop, :thickness)
-    calc_mean(thickness) + groundwater
+    geotop = GeoTop(GEOTOP_URL, features.bbox)
+    group_stratigraphy!(geotop)
+
+    ahn = read_ahn(AHN_PATH, geotop.bbox) # FIXME: Get solution for AHN_PATH
+
+    surcharge_thickness = rasterize_like(features, geotop, :thickness)
+    model = Model(geotop, ahn, surcharge_thickness, groundwater)
+    surcharge = create_surcharge(surcharge_thickness)
+
+    additional_times = [DateTime("2023-01-01")]
+    stop_time = DateTime("2080-01-01")
+
+    simulation = Atlans.Simulation(
+        model,
+        tempname(),
+        stop_time,
+        forcings=surcharge,
+        additional_times=additional_times
+    )
+
+    results = run(simulation)
+    calc_mean(results[1])
+end
+
+
+function run(simulation::Atlans.Simulation)
+    clock = simulation.clock
+
+    results = Vector{Matrix{Float64}}()
+    while Atlans.currenttime(clock) < clock.stop_time
+        Atlans.advance_forcingperiod!(simulation)
+        push!(results, copy(simulation.model.output.subsidence))
+    end
+    
+    close(simulation.writer.dataset)
+    return results
 end
