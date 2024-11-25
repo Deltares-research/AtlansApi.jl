@@ -156,7 +156,7 @@ function shift_down(thickness, strat, litho, surface, modelbase)
         split_idx += 1
         thickness[split_idx] = new_thickness_voxel
     else
-        thickness[split_idx] -= new_thickness_voxel
+        thickness[split_idx] += new_thickness_voxel
     end
     
     thickness = thickness[1:split_idx]

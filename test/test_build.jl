@@ -1,6 +1,13 @@
 @testset "build" begin
-    function voxelstack()
+    function voxelstack_z_negative()
         z = [-2.25, -1.75, -1.25, -0.75, -0.25]
+        strat = [2, 2, 2, 1, 1]
+        litho = [3, 2, 1, 3, 2]
+        return z, strat, litho
+    end
+
+    function voxelstack_z_positive()
+        z = [0.25, 0.75, 1.25, 1.75, 2.25]
         strat = [2, 2, 2, 1, 1]
         litho = [3, 2, 1, 3, 2]
         return z, strat, litho
@@ -66,17 +73,41 @@
         modelbase = -2.5
         
         surface = -0.05
-        _, strat, litho = voxelstack()
+        _, strat, litho = voxelstack_z_negative()
         Δz = fill(0.5, length(strat))
 
         Δz, strat, litho = AtlansApi.shift_down(Δz, strat, litho, surface, modelbase)
-        @test all(Δz .== [0.5, 0.5, 0.5, 0.5, 0.45])
+        @test all(Δz .≈ [0.5, 0.5, 0.5, 0.5, 0.45])
         @test all(strat .== [2, 2, 2, 1, 1])
         @test all(litho .== [3, 2, 1, 3, 2])
 
         surface = -0.47
-        _, strat, litho = voxelstack()
+        _, strat, litho = voxelstack_z_negative()
         Δz = fill(0.5, length(strat))
 
+        Δz, strat, litho = AtlansApi.shift_down(Δz, strat, litho, surface, modelbase)
+        @test all(Δz .≈ [0.5, 0.5, 0.5, 0.53])
+        @test all(strat .== [2, 2, 2, 1])
+        @test all(litho .== [3, 2, 1, 3])
+
+        modelbase = 0
+
+        surface = 2.3
+        _, strat, litho = voxelstack_z_positive()
+        Δz = fill(0.5, length(strat))
+
+        Δz, strat, litho = AtlansApi.shift_down(Δz, strat, litho, surface, modelbase)
+        @test all(Δz .≈ [0.5, 0.5, 0.5, 0.5, 0.3])
+        @test all(strat .== [2, 2, 2, 1, 1])
+        @test all(litho .== [3, 2, 1, 3, 2])
+        
+        surface = 2.05
+        _, strat, litho = voxelstack_z_positive()
+        Δz = fill(0.5, length(strat))
+
+        Δz, strat, litho = AtlansApi.shift_down(Δz, strat, litho, surface, modelbase)
+        @test all(Δz .≈ [0.5, 0.5, 0.5, 0.55])
+        @test all(strat .== [2, 2, 2, 1])
+        @test all(litho .== [3, 2, 1, 3])
     end
 end
