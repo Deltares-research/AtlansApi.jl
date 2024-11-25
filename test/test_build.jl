@@ -207,4 +207,11 @@
         )
         @test domain.n == 20
     end
+
+    @testset "domainbase" begin
+        z, strat, litho = voxelstack_z_positive()
+        surface = 2.3
+        domain = AtlansApi.prepare_voxelstack(z, surface, strat, litho)
+        @test AtlansApi.domainbase(domain) == 0
+    end
 end

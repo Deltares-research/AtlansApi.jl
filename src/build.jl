@@ -240,3 +240,6 @@ function prepare_voxelstack(z, surface, strat, litho)
         domainbase, modelbase, surface, thickness, AdaptiveCellsize.Δzmax, strat, litho
     )
 end
+
+
+domainbase(domain::Atlans.VerticalDomain) = domain.z[1] - 0.5 * domain.Δz[1]
