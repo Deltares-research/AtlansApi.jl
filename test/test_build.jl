@@ -16,7 +16,15 @@
     @testset "create_surcharge" begin
         t = Fixtures.thickness_raster()
 
-        sur = AtlansApi.create_surcharge(t)
+        forcings = AtlansApi.create_surcharge(t)
+        @test isa(forcings, Atlans.Forcings)
+        @test isnothing(forcings.deep_subsidence)
+        @test isnothing(forcings.stage_indexation)
+        @test isnothing(forcings.stage_change)
+        @test isnothing(forcings.aquifer_head)
+        @test isnothing(forcings.temperature)
+        
+        sur = forcings.surcharge
         @test all(ismissing.(sur.lithology))
         @test all(ismissing.(sur.thickness))
         @test isa(sur.reader, Atlans.Reader)

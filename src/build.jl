@@ -110,7 +110,8 @@ end
     create_surcharge(thickness::Raster)
 
 Create an Atlantis `Surcharge` based on the Raster dataset with the surcharge thickness
-to apply.
+to apply. Returns an `Atlans.Forcings` object that contains the surcharge and which can
+be passed to an Atlantis model simulation.
 """
 function create_surcharge(thickness::Raster)
     path_surcharge = AtlansApi.surcharge_netcdf(thickness)
@@ -118,12 +119,13 @@ function create_surcharge(thickness::Raster)
     reader = Atlans.prepare_reader(path_surcharge)
     size = Atlans.xyz_size(reader)
     
-    Atlans.Surcharge(
+    surcharge = Atlans.Surcharge(
         Array{Union{Missing, Int64}}(missing, size),
         Array{Union{Missing, Float64}}(missing, size),
         reader,
         ParamTable
     )
+    Atlans.Forcings(surcharge=surcharge)
 end
 
 
