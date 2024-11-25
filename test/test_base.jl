@@ -27,4 +27,11 @@
         @test f.bbox.xmax == 490
         @test f.bbox.ymax == 570
     end
+
+    @testset "Parameters" begin
+        gw = -1.
+        shape = (5, 4)
+        params = AtlansApi.Parameters(gw, shape)
+        @test all(params.data[:phreatic_level] .== -1.0)
+    end
 end
