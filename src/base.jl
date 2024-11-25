@@ -24,6 +24,12 @@ struct GeoTop <: AbstractSpatial
 end
 
 
+struct Parameters
+    data::Dict{Symbol, Matrix{Float64}}
+    tables::Dict{Symbol, Dict{Tuple{Int64, Int64}}}
+end
+
+
 function BoundingBox(points::Vector{Shapefile.Point})
     xmin = minimum(p.x for p in points)
     xmax = maximum(p.x for p in points)
@@ -56,4 +62,9 @@ function Features(features::JSON3.Object)
     )
 
     Features(pol, fid, thickness, bbox)
+end
+
+
+function Parameters(groundwater::Number, size::Tuple{Int64, Int64})
+    Parameters(Dict(:phreatic_level => fill(groundwater, size)), ParamTable)
 end
