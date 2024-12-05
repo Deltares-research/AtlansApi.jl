@@ -1,5 +1,6 @@
 const GEOTOP_URL = get(ENV, "GEOTOP_URL", raw"https://dinodata.nl/opendap/GeoTOP/geotop.nc")
-const AHN_PATH = get(ENV, "AHN_PATH", raw"https://dinodata.nl/opendap/GeoTOP/geotop.nc")
+const AHN_PATH = get(ENV, "AHN_PATH", raw"p:\430-tgg-data\ahn\dtm_100m.tif")
+const OUTPUT_PATH = get(ENV, "OUTPUT_PATH", "./docker/output")
 
 const KEYS = [
     (1, 0)

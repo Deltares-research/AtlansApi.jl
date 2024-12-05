@@ -1,26 +1,25 @@
 function run_model(req::HTTP.Request)
-    try
-        data = JSON3.read(String(req.body))
+	try
+		data = JSON3.read(String(req.body))
 
-		# create unique ID for the simulation
-        gw = data[:gw]
-        features = Features(data[:geojson])
+		gw = data[:gw]
+		features = Features(data[:geojson])
 
-        if isa(gw, Number) && isa(features, Features)
+		if isa(gw, Number) && isa(features, Features)
 			folder_id = generate_unique_directory_id()
-			tif1 = "output/$folder_id)/initial.tif"
-			tif2 = "output/$folder_id)/remaining.tif"
-			
+			initial_tif = "$OUTPUT_PATH/$folder_id/initial.tif"
+			remaining_tif = "$OUTPUT_PATH/$folder_id/remaining.tif"
+
 			result = run_model(features, gw)
-            
+
 			return HTTP.Response(200, JSON3.write(
-				Dict("id" => folder_id, "initial" => tif1, "remaining" => tif2)
-				)
+				Dict("id" => folder_id, "initial" => initial_tif, "remaining" => remaining_tif),
+			)
 			)
 		end
 	catch e
 		return HTTP.Response(400, JSON3.write(Dict("error" => "Invalid input")))
-    end
+	end
 end
 
 
@@ -35,15 +34,16 @@ function session(host::String, port::Int)
 		end
 	end
 
-	HTTP.serve(router, host, port);
+	HTTP.serve(router, host, port)
 end
 
 
 function generate_unique_directory_id()
 	# While id does exist generate a new id
 	id = string(UUIDs.uuid4())
-	while isdir("$(OUTPUT_DIR)/$id")
+	while isdir("$(OUTPUT_PATH)/$id")
 		id = string(UUIDs.uuid4())
 	end
+	mkdir("$(OUTPUT_PATH)/$id")
 	return id
 end
