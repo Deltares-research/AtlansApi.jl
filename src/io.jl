@@ -1,3 +1,6 @@
+import Base: write # Dispatch to write surcharge results to a tif file
+
+
 """
 	GeoTop(url::AbstractString, bbox::BoundingBox)
 
@@ -58,4 +61,23 @@ function read_ahn(path::AbstractString, bbox::BoundingBox)
 	)
 	ahn = Raster(ahn.data, new_dims)
 	return ahn[X(bbox.xmin .. bbox.xmax), Y(bbox.ymin .. bbox.ymax)]
+end
+
+
+"""
+	write(
+		result::SurchargeResult,
+		path_initial::AbstractString,
+		path_remaining::AbstractString
+	)
+
+Write the initial and remaining surcharge results to tif files.
+"""
+function write(
+	result::SurchargeResult,
+	path_initial::AbstractString,
+	path_remaining::AbstractString,
+)
+	write(path_initial, Raster(result.initial, result.dims))
+	write(path_remaining, Raster(result.remaining, result.dims))
 end

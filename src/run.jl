@@ -62,6 +62,14 @@ function Model(geotop::GeoTop, ahn::Raster, thickness::Raster, gw::Number)
 end
 
 
+"""
+	run_model(features::Features, groundwater::Number)
+
+Run a model simulation using the provided features and groundwater level. This builds an
+Atlantis model directly from GeoTOP data and a local AHN raster. The simulation is run for
+a time period of 60 years, divided into the first 3 years ("initial") and the remaining 57
+years ("remaining") and returns a `SurchargeResult` object.
+"""
 function run_model(features::Features, groundwater::Number)
 	geotop = GeoTop(GEOTOP_URL, features.bbox)
 	group_stratigraphy!(geotop)
@@ -88,6 +96,12 @@ function run_model(features::Features, groundwater::Number)
 end
 
 
+"""
+	run(simulation::Atlans.Simulation)
+
+Run the Atlans.Simulation object and return the subsidence results for "initial" and
+"remaining" periods.
+"""
 function run(simulation::Atlans.Simulation)
 	clock = simulation.clock
 
