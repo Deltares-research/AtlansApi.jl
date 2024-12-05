@@ -11,6 +11,7 @@ using GeoInterface
 using UUIDs
 using Shapefile
 using Rasters
+using Rasters.Lookups
 
 abstract type AbstractSpatial end # Means subtypes will have field :bbox
 
