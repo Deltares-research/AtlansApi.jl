@@ -2,108 +2,101 @@ import Atlans: Model # dispatch Model to AtlansApi implementation
 
 
 """
-    Model(geotop::GeoTop, ahn::Raster, thickness::Raster, gw::Number)
+	Model(geotop::GeoTop, ahn::Raster, thickness::Raster, gw::Number)
 
 Create a model of Atlantis SoilColumns based on the provided geographical and geological
 data. SoilColumns are created for locations where surcharge thickness is available.
 """
 function Model(geotop::GeoTop, ahn::Raster, thickness::Raster, gw::Number)
-    params = Parameters(gw, size(thickness))
-    
-    columntype = Atlans.SoilColumn{
-        GroundwaterMethod,
-        ConsolidationMethod,
-        PreConsolidationMethod,
-        OxidationMethod,
-        ShrinkageMethod
-    }    
-    columns = Vector{columntype}()
-    index = Vector{CartesianIndex}()
-    
-    for I in CartesianIndices(thickness)
-        isnan(thickness[I]) | ismissing(ahn[I]) && continue
+	params = Parameters(gw, size(thickness))
 
-        domain = prepare_voxelstack(
-            geotop.z, ahn[I], geotop.strat[:, I], geotop.litho[:, I]
-        )
-        length(domain.z) == 0 && continue
+	columntype = Atlans.SoilColumn{
+		GroundwaterMethod,
+		ConsolidationMethod,
+		PreConsolidationMethod,
+		OxidationMethod,
+		ShrinkageMethod,
+	}
+	columns = Vector{columntype}()
+	index = Vector{CartesianIndex}()
 
-        gw_column = Atlans.initialize(GroundwaterMethod, domain, params, I)
-        cons_column = Atlans.initialize(
-            ConsolidationMethod, PreConsolidationMethod, domain, params, I
-        )
-        ox_column = Atlans.initialize(OxidationMethod, domain, params, I)
-        shr_column = Atlans.initialize(ShrinkageMethod, domain, params, I)
+	for I in CartesianIndices(thickness)
+		isnan(thickness[I]) | ismissing(ahn[I]) && continue
 
-        col = Atlans.SoilColumn(
-            domainbase(domain),
-            geotop.x[I[1]],
-            geotop.y[I[2]],
-            domain.z,
-            domain.Δz,
-            gw_column,
-            cons_column,
-            ox_column,
-            shr_column
-        )
+		domain = prepare_voxelstack(
+			geotop.z, ahn[I], geotop.strat[:, I], geotop.litho[:, I],
+		)
+		length(domain.z) == 0 && continue
 
-        Atlans.apply_preconsolidation!(col)
-        push!(columns, col)
-        push!(index, I)
-    end
+		gw_column = Atlans.initialize(GroundwaterMethod, domain, params, I)
+		cons_column = Atlans.initialize(
+			ConsolidationMethod, PreConsolidationMethod, domain, params, I,
+		)
+		ox_column = Atlans.initialize(OxidationMethod, domain, params, I)
+		shr_column = Atlans.initialize(ShrinkageMethod, domain, params, I)
 
-    shape = size(thickness)
-    fillnan() = fill(NaN, shape)
+		col = Atlans.SoilColumn(
+			domainbase(domain),
+			geotop.x[I[1]],
+			geotop.y[I[2]],
+			domain.z,
+			domain.Δz,
+			gw_column,
+			cons_column,
+			ox_column,
+			shr_column,
+		)
 
-    output = Atlans.Output(
-        geotop.x, geotop.y, fillnan(), fillnan(), fillnan(), fillnan(), fillnan()
-    )
-    Model(columns, index, TimeDiscretization, AdaptiveCellsize, output)
-end
+		Atlans.apply_preconsolidation!(col)
+		push!(columns, col)
+		push!(index, I)
+	end
 
-"""
-Temp function for testing
-"""
-function calc_mean(arr)
-    filtered = filter(!isnan, arr)
-    sum(filtered) / length(filtered)
+	shape = size(thickness)
+	fillnan() = fill(NaN, shape)
+
+	output = Atlans.Output(
+		geotop.x, geotop.y, fillnan(), fillnan(), fillnan(), fillnan(), fillnan(),
+	)
+	Model(columns, index, TimeDiscretization, AdaptiveCellsize, output)
 end
 
 
 function run_model(features::Features, groundwater::Number)
-    geotop = GeoTop(GEOTOP_URL, features.bbox)
-    group_stratigraphy!(geotop)
+	geotop = GeoTop(GEOTOP_URL, features.bbox)
+	group_stratigraphy!(geotop)
 
-    ahn = read_ahn(AHN_PATH, geotop.bbox) # FIXME: Get solution for AHN_PATH
+	ahn = read_ahn(AHN_PATH, geotop.bbox)
 
-    surcharge_thickness = rasterize_like(features, geotop, :thickness)
-    model = Model(geotop, ahn, surcharge_thickness, groundwater)
-    surcharge = create_surcharge(surcharge_thickness)
+	surcharge_thickness = rasterize_like(features, geotop, :thickness)
+	model = Model(geotop, ahn, surcharge_thickness, groundwater)
+	surcharge = create_surcharge(surcharge_thickness)
 
-    additional_times = [DateTime("2023-01-01")]
-    stop_time = DateTime("2080-01-01")
+	additional_times = [DateTime("2023-01-01")]
+	stop_time = DateTime("2080-01-01")
 
-    simulation = Atlans.Simulation(
-        model,
-        tempname(),
-        stop_time,
-        forcings=surcharge,
-        additional_times=additional_times
-    )
+	simulation = Atlans.Simulation(
+		model,
+		tempname(),
+		stop_time,
+		forcings = surcharge,
+		additional_times = additional_times,
+	)
 
-    results = run(simulation)
+	results = run(simulation)
+	SurchargeResult(results[1], results[end], surcharge_thickness.dims)
 end
 
 
 function run(simulation::Atlans.Simulation)
-    clock = simulation.clock
+	clock = simulation.clock
 
-    results = Vector{Matrix{Float64}}()
-    while Atlans.currenttime(clock) < clock.stop_time
-        Atlans.advance_forcingperiod!(simulation)
-        push!(results, copy(simulation.model.output.subsidence))
-    end
-    
-    close(simulation.writer.dataset)
-    return results
+	results = Vector{Matrix{Float64}}()
+	while Atlans.currenttime(clock) < clock.stop_time
+		Atlans.advance_forcingperiod!(simulation)
+		push!(results, copy(simulation.model.output.subsidence))
+	end
+
+	close(simulation.writer.dataset)
+	return results
 end

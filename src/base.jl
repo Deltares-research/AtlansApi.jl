@@ -30,6 +30,13 @@ struct Parameters
 end
 
 
+struct SurchargeResult
+    initial::Matrix{Float64}
+    remaining::Matrix{Float64}
+    dims::Tuple
+end
+
+
 function BoundingBox(points::Vector{Shapefile.Point})
     xmin = minimum(p.x for p in points)
     xmax = maximum(p.x for p in points)
