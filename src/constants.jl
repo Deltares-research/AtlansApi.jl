@@ -1,3 +1,6 @@
+const GEOTOP_URL = get(ENV, "GEOTOP_URL", raw"https://dinodata.nl/opendap/GeoTOP/geotop.nc")
+const AHN_PATH = get(ENV, "AHN_PATH", raw"https://dinodata.nl/opendap/GeoTOP/geotop.nc")
+
 const KEYS = [
     (1, 0)
     (1, 1)

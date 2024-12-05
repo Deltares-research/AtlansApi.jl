@@ -1,6 +1,12 @@
 import Atlans: Model # dispatch Model to AtlansApi implementation
 
 
+"""
+    Model(geotop::GeoTop, ahn::Raster, thickness::Raster, gw::Number)
+
+Create a model of Atlantis SoilColumns based on the provided geographical and geological
+data. SoilColumns are created for locations where surcharge thickness is available.
+"""
 function Model(geotop::GeoTop, ahn::Raster, thickness::Raster, gw::Number)
     params = Parameters(gw, size(thickness))
     
@@ -86,7 +92,6 @@ function run_model(features::Features, groundwater::Number)
     )
 
     results = run(simulation)
-    calc_mean(results[1])
 end
 
 

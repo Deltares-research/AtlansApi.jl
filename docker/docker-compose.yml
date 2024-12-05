@@ -11,5 +11,7 @@ services:
     environment:
       - HOST=0.0.0.0
       - PORT=80
+      - GEOTOP_URL = https://dinodata.nl/opendap/GeoTOP/geotop.nc
+      - AHN_PATH = /app/data/ahn.tif
     volumes:
       - ./data:/app/data

@@ -8,6 +8,7 @@ using HTTP
 using JSON3
 using NCDatasets
 using GeoInterface
+using UUIDs
 using Shapefile
 using Rasters
 
@@ -17,7 +18,6 @@ include("example/sample.jl")
 include("constants.jl")
 
 # GeoTOP constants
-const GEOTOP_URL = raw"https://dinodata.nl/opendap/GeoTOP/geotop.nc"
 const GeotopResolution = (100, 100) # x, y
 const DzGeotop = 0.5 # z
 
@@ -42,9 +42,6 @@ const ParamTable = Dict(
 
 # API constants
 const RaisedSand = 99
-
-# TEMP
-const AHN_PATH = raw"p:\430-tgg-data\ahn\dtm_100m.tif" # FIXME: Get solution for AHN_PATH
 
 include("base.jl")
 include("build.jl")
