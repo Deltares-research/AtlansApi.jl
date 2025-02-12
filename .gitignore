@@ -1,2 +1,21 @@
-.github/
+# Ignore local scripts
 dev/
+
+# Ignore the docs/build directory
+docs/build/
+docs/src/*.png
+docs/final_site
+
+# Ignore file extensions
+*.gpkg
+*.geojson
+*.shp
+*.prj
+*.shx
+*.dbf
+*.sbn
+*.sbx
+*.sha256
+.DS_Store
+
+Manifest.toml
