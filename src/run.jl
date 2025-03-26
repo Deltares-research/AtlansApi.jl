@@ -22,10 +22,17 @@ function Model(geotop::GeoTop, ahn::Raster, thickness::Raster, gw::Number)
 
 	for I in CartesianIndices(thickness)
 		isnan(thickness[I]) | ismissing(ahn[I]) && continue
-
-		domain = prepare_voxelstack(
-			geotop.z, ahn[I], geotop.strat[:, I], geotop.litho[:, I],
-		)
+		domain = try
+			prepare_voxelstack(
+				geotop.z, ahn[I], geotop.strat[:, I], geotop.litho[:, I],
+			)
+		catch e
+			if isa(e, BoundsError)
+				continue
+			else
+				throw(e)
+			end
+		end
 		length(domain.z) == 0 && continue
 
 		gw_column = Atlans.initialize(GroundwaterMethod, domain, params, I)
