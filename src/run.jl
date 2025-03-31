@@ -21,7 +21,7 @@ function Model(geotop::GeoTop, ahn::Raster, thickness::Raster, gw::Number)
 	index = Vector{CartesianIndex}()
 
 	for I in CartesianIndices(thickness)
-		isnan(thickness[I]) | ismissing(ahn[I]) && continue
+		isnan(thickness[I]) | ismissing(ahn[I]) | isnan(ahn[I]) && continue
 		domain = try
 			prepare_voxelstack(
 				geotop.z, ahn[I], geotop.strat[:, I], geotop.litho[:, I],
