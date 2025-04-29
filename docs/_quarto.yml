@@ -1,0 +1,52 @@
+project:
+  type: website
+
+engines: ['julia']
+
+website:
+  title: "AtlansApi.jl"
+  page-navigation: true
+  navbar:
+    left:
+      - text: "Background"
+        file: background/index.qmd
+      - text: "Usage"
+        file: usage/index.qmd
+      - text: "API reference"
+        file: build/index.md
+  
+  sidebar:
+    - title: "Background"
+      contents:
+        - background/index.qmd
+    - title: "Usage"
+      contents:
+        - usage/index.qmd
+
+format:
+  html:
+    theme:
+      light: [cosmo, _static/theme-light.scss]
+      dark: [cosmo, _static/theme-dark.scss]
+    css: _static/styles.css
+    toc: true
+    toc-expand: true
+    page-layout: article
+    grid:
+      content-mode: standard
+      sidebar-width: 300px
+      body-width: 1000px
+    html-math-method:
+      method: mathjax  # or katex
+      # MathJax specific options
+      mathjax-extensions:
+        - ams
+        - newcommand
+        - autoload
+
+# bibliography: references.bib
+
+crossref: 
+  fig-title: Fig.
+  fig-prefix: Fig.
+  title-delim: "."
