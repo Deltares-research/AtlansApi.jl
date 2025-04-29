@@ -1,7 +1,7 @@
 name = "AtlansApi"
 uuid = "fe716879-2e18-4081-b090-62ad3424aa7d"
 authors = ["Bas Knaake <bas.knaake@deltares.nl>"]
-version = "1.0.0-DEV"
+version = "0.1.0"
 
 [deps]
 ArchGDAL = "c9ce4bd3-c3d5-55b8-8973-c0e20141b8c3"
@@ -21,7 +21,7 @@ UUIDs = "cf7118a7-6976-5b1a-9a39-7adc72f591a4"
 Atlans = {rev = "main", url = "https://github.com/Deltares-research/Atlans.jl.git"}
 
 [compat]
-julia = "1.6.7"
+julia = "1.6"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
