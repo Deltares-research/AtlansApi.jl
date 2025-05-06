@@ -1,8 +1,5 @@
 ---
 title: "AtlansApi.jl"
-toc: false
-format:
-  html
 ---
 
 

@@ -14,3 +14,10 @@ dev/
 .DS_Store
 
 Manifest.toml
+
+docs/build/
+docs/final_site
+docs/.quarto/
+docs/_site/
+docs/site_libs/
+docs/*.html

@@ -1,8 +1,8 @@
 project:
   type: website
   output-dir: "_site"
-  render:
-    - "*.qmd"
+  pre-render:
+    - julia --project make.jl
 
 engines: ['julia']
 
@@ -51,19 +51,10 @@ format:
     theme-toggle: true
     toc: true
     toc-expand: true
-    page-layout: article
     grid:
       content-mode: standard
       sidebar-width: 300px
       body-width: 1000px
-    html-math-method:
-      method: mathjax  # or katex
-      # MathJax specific options
-      mathjax-extensions:
-        - ams
-        - newcommand
-        - autoload
-
 # bibliography: references.bib
 
 crossref: 

@@ -1,7 +1,4 @@
-/.quarto/
-/_site/
-/site_libs/
-*.html
-/Manifest.toml
+!Manifest.toml
 *.quarto_ipynb
 
+/.quarto/
