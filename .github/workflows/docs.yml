@@ -1,0 +1,48 @@
+name: AtlansApi documentation
+
+on:
+  push:
+    branches: [main]
+    paths:
+    - 'docs/**'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    name: Build Quarto Docs
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Julia for docs
+        uses: julia-actions/setup-julia@v2
+        with:
+          version: '1.11'
+          
+      - name: Install dependencies for docs
+        run: |
+          cd docs
+          julia --project=. -e 'using Pkg; Pkg.instantiate()'
+
+      - name: Install Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+
+      - name: Render Quarto site
+        run: |
+          cd docs
+          quarto render
+
+      - name: Publish Quarto Project
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: docs/_site
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DOCUMENTER_KEY: ${{ secrets.DOCUMENTER_KEY }}
