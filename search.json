@@ -1,0 +1,99 @@
+[
+  {
+    "objectID": "build/index.html#index",
+    "href": "build/index.html#index",
+    "title": "API Reference",
+    "section": "Index",
+    "text": "Index\n\nAtlans.Model\nAtlansApi.GeoTop\nAtlansApi.GeoTop\nAtlansApi.add_antropogenic\nAtlansApi.create_surcharge\nAtlansApi.generate_unique_directory_id\nAtlansApi.prepare_voxelstack\nAtlansApi.rasterize_like\nAtlansApi.rasterize_like\nAtlansApi.rasterize_like\nAtlansApi.read_ahn\nAtlansApi.run\nAtlansApi.run_model\nAtlansApi.run_model\nAtlansApi.session\nAtlansApi.shift_down\nAtlansApi.shift_up\nAtlansApi.surcharge_netcdf\nBase.write"
+  },
+  {
+    "objectID": "build/index.html#specific-function",
+    "href": "build/index.html#specific-function",
+    "title": "API Reference",
+    "section": "Specific function",
+    "text": "Specific function\n# AtlansApi.rasterize_like — Function.\nrasterize_like(features::GeoJSON.FeatureCollection, geotop::GeoTop; kw...)\nRasterize the “fids” of an incoming geojson with polygons within the 2D raster extent of the modelling area of GeoTop.\nrasterize_like(features::GeoJSON.FeatureCollection, geotop::GeoTop, field::Symbol)\nRasterize a field of an incoming geojson with polygons within the 2D raster extent of the modelling area of GeoTop."
+  },
+  {
+    "objectID": "build/index.html#modules",
+    "href": "build/index.html#modules",
+    "title": "API Reference",
+    "section": "Modules",
+    "text": "Modules"
+  },
+  {
+    "objectID": "build/index.html#types",
+    "href": "build/index.html#types",
+    "title": "API Reference",
+    "section": "Types",
+    "text": "Types\n# Atlans.Model — Method.\nModel(geotop::GeoTop, ahn::Raster, thickness::Raster, gw::Number)\nCreate a model of Atlantis SoilColumns based on the provided geographical and geological data. SoilColumns are created for locations where surcharge thickness is available.\n# AtlansApi.GeoTop — Method.\nGeoTop(url::AbstractString, bbox::BoundingBox)\nRead GeoTop data directly from the Opendap server for a selected area in a bounding box.\n# AtlansApi.GeoTop — Method.\nGeoTop(geotop::Dataset, bbox::BoundingBox)\nSelect GeoTop data for a selected bounding box from a NCDatasets.Dataset."
+  },
+  {
+    "objectID": "build/index.html#functions",
+    "href": "build/index.html#functions",
+    "title": "API Reference",
+    "section": "Functions",
+    "text": "Functions\n# AtlansApi.add_antropogenic — Method.\nadd_antropogenic(\n    thickness::Vector{Number},\n    strat::Vector{Number},\n    litho::Vector{Number},\n    difference::Number\n)\nAdd a layer of antropogenic material to the voxelstack with the appropriate thickness.\n# AtlansApi.create_surcharge — Method.\ncreate_surcharge(thickness::Raster)\nCreate an Atlantis Surcharge based on the Raster dataset with the surcharge thickness to apply. Returns an Atlans.Forcings object that contains the surcharge and which can be passed to an Atlantis model simulation.\n# AtlansApi.generate_unique_directory_id — Method.\ngenerate_unique_directory_id()\nHelper function to generate a unique directory id-hash for different API calls to store model output tifs.\n# AtlansApi.prepare_voxelstack — Method.\nprepare_voxelstack(\n    z::Vector{Number},\n    surface::Number,\n    strat::Vector{Number},\n    litho::Vector{Number}\n)\nCreate an Atlantis VerticalDomain from a voxelstack of GeoTOP. This checks the depths against the surface level elevation and corrects voxel thicknesses that are above or below the surface level. If the surface level elevation is more than 2 meters higher than the elevation of the highest voxel, a layer of antropogenic material is added with the appropriate thickness.\nArguments:\n\nz: NAP Depth of each voxel.\nsurface: Surface level elevation in NAP.\nstrat: Stratigraphic unit of each voxel.\nlitho: Lithology of each voxel.\n\n# AtlansApi.rasterize_like — Method.\nrasterize_like(features::GeoJSON.FeatureCollection, geotop::GeoTop, field::Symbol)\nRasterize a field of an incoming geojson with polygons within the 2D raster extent of the modelling area of GeoTop.\n# AtlansApi.rasterize_like — Method.\nrasterize_like(features::GeoJSON.FeatureCollection, geotop::GeoTop; kw...)\nRasterize the “fids” of an incoming geojson with polygons within the 2D raster extent of the modelling area of GeoTop.\n# AtlansApi.read_ahn — Method.\nread_ahn(path::AbstractString, bbox::BoundingBox)\nRead a 100x100 meter resolution tif of AHN data.\n# AtlansApi.run — Method.\nrun(simulation::Atlans.Simulation)\nRun the Atlans.Simulation object and return the subsidence results for “initial” and “remaining” periods.\n# AtlansApi.run_model — Method.\nrun_model(features::Features, groundwater::Number)\nRun a model simulation using the provided features and groundwater level. This builds an Atlantis model directly from GeoTOP data and a local AHN raster. The simulation is run for a time period of 60 years, divided into the first 3 years (“initial”) and the remaining 57 years (“remaining”) and returns a SurchargeResult object.\n# AtlansApi.run_model — Method.\nrun_model(req::HTTP.Request)\nProcess an HTTP request to run an Atlantis model simulation for surcharge calculations based on the provided input data.\nRequest JSON Structure\n\ngw: A numerical value representing the groundwater level.\ngeojson: A GeoJSON object representing the geographical features.\n\nResponse JSON Structure\n\nid: A unique identifier for the generated directory.\ninitial: The file path to the initial TIFF file.\nremaining: The file path to the remaining TIFF file.\n\nErrors\n\nReturns a 400 HTTP response with an error message if the input is invalid.\n\n# AtlansApi.session — Method.\nsession(host::String, port::Int)\nStart an HTTP server session to listen for incoming requests to run Atlantis model simulations.\n# AtlansApi.shift_down — Method.\nshift_down(\n    thickness::Vector{Number},\n    strat::Vector{Number},\n    litho::Vector{Number},\n    surface::Number,\n    modelbase::Number\n)\nShift the top level of a voxelstack down to the surface level. This function reduces the thickness of the top voxel or adds the thickness of the top voxel to the voxel below if the thickness is less than 0.1 meters.\n# AtlansApi.shift_up — Method.\nshift_up(\n    thickness::Vector{Number},\n    strat::Vector{Number},\n    litho::Vector{Number},\n    surface::Number,\n    modelbase::Number\n)\nShift the top level of a voxelstack up to the surface level. This function increases the thickness of the top voxel or adds a new voxel with the appropriate thickness.\n# AtlansApi.surcharge_netcdf — Method.\nsurcharge_netcdf(thickness::Raster)\nCreate a temporary NetCDF Dataset for the surcharge to apply in Atlantis based on a Raster dataset of the surcharge thickness.\n# Base.write — Method.\nwrite(\n    result::SurchargeResult,\n    path_initial::AbstractString,\n    path_remaining::AbstractString\n)\nWrite the initial and remaining surcharge results to tif files."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "AtlansApi.jl",
+    "section": "",
+    "text": "This is the general information of AtlansApi.jl"
+  },
+  {
+    "objectID": "src/index.html",
+    "href": "src/index.html",
+    "title": "API Reference",
+    "section": "",
+    "text": "This is the private internal documentation of the AtlansApi API.\n\n\n\n\n\n\n\nCurrentModule = AtlansApi\nrasterize_like\n\n\n\nModules = [AtlansApi]\nOrder   = [:module]\n\n\n\nModules = [AtlansApi]\nOrder   = [:type]\n\n\n\nModules = [AtlansApi]\nOrder   = [:function]"
+  },
+  {
+    "objectID": "src/index.html#specific-function",
+    "href": "src/index.html#specific-function",
+    "title": "API Reference",
+    "section": "",
+    "text": "CurrentModule = AtlansApi\nrasterize_like"
+  },
+  {
+    "objectID": "src/index.html#modules",
+    "href": "src/index.html#modules",
+    "title": "API Reference",
+    "section": "",
+    "text": "Modules = [AtlansApi]\nOrder   = [:module]"
+  },
+  {
+    "objectID": "src/index.html#types",
+    "href": "src/index.html#types",
+    "title": "API Reference",
+    "section": "",
+    "text": "Modules = [AtlansApi]\nOrder   = [:type]"
+  },
+  {
+    "objectID": "src/index.html#functions",
+    "href": "src/index.html#functions",
+    "title": "API Reference",
+    "section": "",
+    "text": "Modules = [AtlansApi]\nOrder   = [:function]"
+  },
+  {
+    "objectID": "usage/index.html",
+    "href": "usage/index.html",
+    "title": "Usage",
+    "section": "",
+    "text": "This is shows the usage\n\n# Some test code cell\nusing AtlansApi\n\nAtlansApi.GeoTop\n\nAtlansApi.GeoTop",
+    "crumbs": [
+      "Usage"
+    ]
+  },
+  {
+    "objectID": "background/index.html",
+    "href": "background/index.html",
+    "title": "Background",
+    "section": "",
+    "text": "This is some background on the AtlansApi",
+    "crumbs": [
+      "Background"
+    ]
+  }
+]
