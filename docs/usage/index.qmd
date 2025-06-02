@@ -3,6 +3,9 @@ title: "Usage"
 engine: julia
 ---
 
+The following sections explain steps to integrate `AtlansApi` into a DigiTwin-like platform, API endpoints, payload structure to run the Atlantis simulations and the response contents.
+
+`AtlansApi` is **not a publicly hosted API** and therefore it is **only functional within a specific platform deployment**, such as a self-hosted DigiTwin-like platform. The repository contains a Docker image which can build an isolated environment for `AtlansApi` and which sets up a HTTP server session (at a user-specified location) to "listen" for incoming requests to run the Atlantis simulations.
 
 ```{julia}
 # Some test code cell

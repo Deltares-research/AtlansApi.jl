@@ -1,5 +1,5 @@
 ---
-title: "Example API request"
+title: "Example API payload"
 ---
 
 
