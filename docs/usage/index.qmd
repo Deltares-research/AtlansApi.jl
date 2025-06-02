@@ -3,7 +3,6 @@ title: "Usage"
 engine: julia
 ---
 
-This is shows the usage
 
 ```{julia}
 # Some test code cell

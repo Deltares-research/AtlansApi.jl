@@ -17,10 +17,8 @@ Revise = "295af30f-e4ad-537b-8983-00126c2a3abe"
 Shapefile = "8e980c4a-a4fe-5da2-b3a7-4b4b0353a2f4"
 UUIDs = "cf7118a7-6976-5b1a-9a39-7adc72f591a4"
 
-[sources]
-Atlans = {rev = "main", url = "https://github.com/Deltares-research/Atlans.jl.git"}
-
 [compat]
+Atlans = "0.1"
 julia = "1.6"
 
 [extras]

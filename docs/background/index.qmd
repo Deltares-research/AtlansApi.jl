@@ -2,4 +2,14 @@
 title: "Background"
 ---
 
-This is some background on the AtlansApi
+# Atlantis modelling environment
+
+Atlantis is a tool that can be used to create regional and national scale predictions of soil subsidence based on 3D voxelmodels of the subsurface buildup and scenarios of for example phreatic groundwater level management. Normally in Atlantis, subsidence is calculated per 1D subsurface column as the sum of a combination of three processes:
+
+- consolidation
+- oxidation
+- shrinkage
+
+In general, Atlantis does not consider horizontal interaction between individual columns. In `AtlansApi`, the settlement is calculated only using the consolidation process; the oxidation and shrinkage processes are effectively ignored.
+
+Besides subsurface data input, the predictions of subsidence rely on an input groundwater table which is typically a long-term mean lowest groundwater table (MLGT; in Dutch: GLG). In the consolidation process, this groundwater table is used to determine the water- and exchange of pore-pressures. Normally, the groundwater table is also used to determine the parts of the columns where oxidation and shrinkage processes take place contribute to subsidence. For more details on the modelling concepts and specific equations, see the [Atlantis documentation](https://deltares-research.github.io/Atlans.jl/)

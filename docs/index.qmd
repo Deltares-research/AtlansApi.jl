@@ -3,4 +3,16 @@ title: "AtlansApi.jl"
 ---
 
 
-This is the general information of AtlansApi.jl
+`AtlansApi` is a shell around the **Atlantis subsidence model** ([Atlans.jl](https://deltares-research.github.io/Atlans.jl/)) to provide the capability to make projections of the expected settlement as a result of loading by running the consolidation module from Atlantis via API requests. 
+
+## Atlantis
+
+Atlantis is a subsidence model originally developed by [Deltares](https://www.deltares.nl/) which can be used to create regional scale predictions of land subsidence based on 3D voxelmodels of the subsurface buildup and management scenarios. Atlantis has the capability to calculate the expected settlement resulting from raising the land surface (i.e. "loading") with for example sand material, prior to construction phases of for instance building projects for residential areas. For more explanation of Atlantis, see the [Background](./background/index.qmd) page or visit the [Atlantis documentation](https://deltares-research.github.io/Atlans.jl/).  
+
+## Connection to Digital Twin software
+
+The capability of `AtlansApi` to run Atlantis via API requests makes it possible to directly incorporate settlement projections within Digital Twin software.
+
+## Use of public subsurface data
+
+`AtlansApi` bases the settlement projections solely on subsurface data available from public databases such as the [BRO](https://basisregistratieondergrond.nl/) Dutch national database. 

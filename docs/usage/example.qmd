@@ -1,0 +1,71 @@
+---
+title: "Example API request"
+---
+
+
+Location of some example features in the Almere Pampus area.
+
+<iframe src="../_static/map/features.html" width="100%" height="600px" style="border:none;"></iframe>
+
+
+```json
+{
+    "gw": -5,
+    "geojson": {
+        "type": "FeatureCollection",
+        "features": [
+            {
+                "id": "0",
+                "type": "Feature",
+                "properties": {
+                    "id": 1,
+                    "dikte": 1.5
+                },
+                "geometry": {
+                    "type": "Polygon",
+                    "coordinates": [
+                        [
+                            [137692, 487627],
+                            [137787, 487840],
+                            [138127, 487910],
+                            [138295, 487791],
+                            [138291, 487639],
+                            [138156, 487426],
+                            [137860, 487356],
+                            [137672, 487451],
+                            [137692, 487627]
+                        ]
+                    ]
+                }
+            },
+            {
+                "id": "1",
+                "type": "Feature",
+                "properties": {
+                    "id": 2,
+                    "dikte": 0.8
+                },
+                "geometry": {
+                    "type": "Polygon",
+                    "coordinates": [
+                        [
+                            [139087, 488123],
+                            [139411, 487984],
+                            [139403, 487762],
+                            [139251, 487697],
+                            [139042, 487849],
+                            [139087, 488123]
+                        ]
+                    ]
+                }
+            }
+        ],
+        "crs": {
+            "type": "name",
+            "properties": {
+                "name": "urn:ogc:def:crs:EPSG::28992"
+            }
+        }
+    }
+}
+``` 

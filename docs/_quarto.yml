@@ -29,8 +29,8 @@ website:
       - href: https://www.deltares.nl
         text: |
           <span class="logo-container">
-            <img src="_static/images/deltares-blue.svg" class="footer-image-light" height="30">
-            <img src="_static/images/deltares-white.svg" class="footer-image-dark" height="30">
+            <img src="/_static/images/deltares-blue.svg" class="footer-image-light" height="30">
+            <img src="/_static/images/deltares-white.svg" class="footer-image-dark" height="30">
           </span>
         aria-label: Deltares logo
   
@@ -41,6 +41,8 @@ website:
     - title: "Usage"
       contents:
         - usage/index.qmd
+        - usage/data.qmd
+        - usage/example.qmd
 
 format:
   html:

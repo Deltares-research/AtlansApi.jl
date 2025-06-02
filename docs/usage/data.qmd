@@ -1,0 +1,12 @@
+---
+title: "Input data"
+---
+
+# GeoTOP (3D voxelmodel)
+
+Typically, `AtlansApi` uses the 3D voxelmodel [GeoTOP](https://www.broloket.nl/toelichting/geotop) as the subsurface input.
+
+
+# Surface level
+
+Algemeen Hoogtebestand Nederland (AHN).
