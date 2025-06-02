@@ -1,5 +1,54 @@
 [
   {
+    "objectID": "background/index.html",
+    "href": "background/index.html",
+    "title": "Background",
+    "section": "",
+    "text": "Atlantis modelling environment\nAtlantis is a tool that can be used to create regional and national scale predictions of soil subsidence based on 3D voxelmodels of the subsurface buildup and scenarios of for example phreatic groundwater level management. Normally in Atlantis, subsidence is calculated per 1D subsurface column as the sum of a combination of three processes:\n\nconsolidation\noxidation\nshrinkage\n\nIn general, Atlantis does not consider horizontal interaction between individual columns. In AtlansApi, the settlement is calculated only using the consolidation process; the oxidation and shrinkage processes are effectively ignored.\nBesides subsurface data input, the predictions of subsidence rely on an input groundwater table which is typically a long-term mean lowest groundwater table (MLGT; in Dutch: GLG). In the consolidation process, this groundwater table is used to determine the water- and exchange of pore-pressures. Normally, the groundwater table is also used to determine the parts of the columns where oxidation and shrinkage processes take place contribute to subsidence. For more details on the modelling concepts and specific equations, see the Atlantis documentation",
+    "crumbs": [
+      "Background"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "AtlansApi.jl",
+    "section": "",
+    "text": "AtlansApi is a shell around the Atlantis subsidence model (Atlans.jl) to provide the capability to make projections of the expected settlement as a result of loading by running the consolidation module from Atlantis via API requests.\n\nAtlantis\nThe Atlantis subsidence model is developed and maintained by Deltares and can be used to create regional scale predictions of land subsidence based on 3D voxelmodels of the subsurface buildup in combination with management scenarios. Atlantis has the capability to calculate the expected settlement resulting from raising the land surface (i.e. “loading”) with for example sand material, prior to construction phases of for instance building projects for residential areas. For more explanation of Atlantis, see the Background page or visit the Atlantis documentation.\n\n\nConnection to Digital Twin software\nThe capability of AtlansApi to run Atlantis via API requests makes it possible to directly incorporate settlement projections within Digital Twin software.\n\n\nUse of public subsurface data\nAtlansApi bases the settlement projections solely on subsurface data available from public databases such as the BRO Dutch national database."
+  },
+  {
+    "objectID": "usage/data.html",
+    "href": "usage/data.html",
+    "title": "Input data",
+    "section": "",
+    "text": "GeoTOP (3D voxelmodel)\nTypically, AtlansApi uses the 3D voxelmodel GeoTOP as the subsurface input.\n\n\nSurface level\nAlgemeen Hoogtebestand Nederland (AHN).",
+    "crumbs": [
+      "Usage",
+      "Input data"
+    ]
+  },
+  {
+    "objectID": "usage/example.html",
+    "href": "usage/example.html",
+    "title": "Example API payload",
+    "section": "",
+    "text": "Location of some example features in the Almere Pampus area.\n\n\n{\n    \"gw\": -5,\n    \"geojson\": {\n        \"type\": \"FeatureCollection\",\n        \"features\": [\n            {\n                \"id\": \"0\",\n                \"type\": \"Feature\",\n                \"properties\": {\n                    \"id\": 1,\n                    \"dikte\": 1.5\n                },\n                \"geometry\": {\n                    \"type\": \"Polygon\",\n                    \"coordinates\": [\n                        [\n                            [137692, 487627],\n                            [137787, 487840],\n                            [138127, 487910],\n                            [138295, 487791],\n                            [138291, 487639],\n                            [138156, 487426],\n                            [137860, 487356],\n                            [137672, 487451],\n                            [137692, 487627]\n                        ]\n                    ]\n                }\n            },\n            {\n                \"id\": \"1\",\n                \"type\": \"Feature\",\n                \"properties\": {\n                    \"id\": 2,\n                    \"dikte\": 0.8\n                },\n                \"geometry\": {\n                    \"type\": \"Polygon\",\n                    \"coordinates\": [\n                        [\n                            [139087, 488123],\n                            [139411, 487984],\n                            [139403, 487762],\n                            [139251, 487697],\n                            [139042, 487849],\n                            [139087, 488123]\n                        ]\n                    ]\n                }\n            }\n        ],\n        \"crs\": {\n            \"type\": \"name\",\n            \"properties\": {\n                \"name\": \"urn:ogc:def:crs:EPSG::28992\"\n            }\n        }\n    }\n}",
+    "crumbs": [
+      "Usage",
+      "Example API payload"
+    ]
+  },
+  {
+    "objectID": "usage/index.html",
+    "href": "usage/index.html",
+    "title": "Usage",
+    "section": "",
+    "text": "The following sections explain steps to integrate AtlansApi into a DigiTwin-like platform, API endpoints, payload structure to run the Atlantis simulations and the response contents.\nAtlansApi is not a publicly hosted API and therefore it is only functional within a specific platform deployment, such as a self-hosted DigiTwin-like platform. The repository contains a Docker image which can build an isolated environment for AtlansApi and which sets up a HTTP server session (at a user-specified location) to “listen” for incoming requests to run the Atlantis simulations.\n\n# Some test code cell\nusing AtlansApi\n\nAtlansApi.GeoTop\n\nAtlansApi.GeoTop",
+    "crumbs": [
+      "Usage"
+    ]
+  },
+  {
     "objectID": "build/index.html#index",
     "href": "build/index.html#index",
     "title": "API Reference",
@@ -35,13 +84,6 @@
     "text": "Functions\n# AtlansApi.add_antropogenic — Method.\nadd_antropogenic(\n    thickness::Vector{Number},\n    strat::Vector{Number},\n    litho::Vector{Number},\n    difference::Number\n)\nAdd a layer of antropogenic material to the voxelstack with the appropriate thickness.\n# AtlansApi.create_surcharge — Method.\ncreate_surcharge(thickness::Raster)\nCreate an Atlantis Surcharge based on the Raster dataset with the surcharge thickness to apply. Returns an Atlans.Forcings object that contains the surcharge and which can be passed to an Atlantis model simulation.\n# AtlansApi.generate_unique_directory_id — Method.\ngenerate_unique_directory_id()\nHelper function to generate a unique directory id-hash for different API calls to store model output tifs.\n# AtlansApi.prepare_voxelstack — Method.\nprepare_voxelstack(\n    z::Vector{Number},\n    surface::Number,\n    strat::Vector{Number},\n    litho::Vector{Number}\n)\nCreate an Atlantis VerticalDomain from a voxelstack of GeoTOP. This checks the depths against the surface level elevation and corrects voxel thicknesses that are above or below the surface level. If the surface level elevation is more than 2 meters higher than the elevation of the highest voxel, a layer of antropogenic material is added with the appropriate thickness.\nArguments:\n\nz: NAP Depth of each voxel.\nsurface: Surface level elevation in NAP.\nstrat: Stratigraphic unit of each voxel.\nlitho: Lithology of each voxel.\n\n# AtlansApi.rasterize_like — Method.\nrasterize_like(features::GeoJSON.FeatureCollection, geotop::GeoTop, field::Symbol)\nRasterize a field of an incoming geojson with polygons within the 2D raster extent of the modelling area of GeoTop.\n# AtlansApi.rasterize_like — Method.\nrasterize_like(features::GeoJSON.FeatureCollection, geotop::GeoTop; kw...)\nRasterize the “fids” of an incoming geojson with polygons within the 2D raster extent of the modelling area of GeoTop.\n# AtlansApi.read_ahn — Method.\nread_ahn(path::AbstractString, bbox::BoundingBox)\nRead a 100x100 meter resolution tif of AHN data.\n# AtlansApi.run — Method.\nrun(simulation::Atlans.Simulation)\nRun the Atlans.Simulation object and return the subsidence results for “initial” and “remaining” periods.\n# AtlansApi.run_model — Method.\nrun_model(features::Features, groundwater::Number)\nRun a model simulation using the provided features and groundwater level. This builds an Atlantis model directly from GeoTOP data and a local AHN raster. The simulation is run for a time period of 60 years, divided into the first 3 years (“initial”) and the remaining 57 years (“remaining”) and returns a SurchargeResult object.\n# AtlansApi.run_model — Method.\nrun_model(req::HTTP.Request)\nProcess an HTTP request to run an Atlantis model simulation for surcharge calculations based on the provided input data.\nRequest JSON Structure\n\ngw: A numerical value representing the groundwater level.\ngeojson: A GeoJSON object representing the geographical features.\n\nResponse JSON Structure\n\nid: A unique identifier for the generated directory.\ninitial: The file path to the initial TIFF file.\nremaining: The file path to the remaining TIFF file.\n\nErrors\n\nReturns a 400 HTTP response with an error message if the input is invalid.\n\n# AtlansApi.session — Method.\nsession(host::String, port::Int)\nStart an HTTP server session to listen for incoming requests to run Atlantis model simulations.\n# AtlansApi.shift_down — Method.\nshift_down(\n    thickness::Vector{Number},\n    strat::Vector{Number},\n    litho::Vector{Number},\n    surface::Number,\n    modelbase::Number\n)\nShift the top level of a voxelstack down to the surface level. This function reduces the thickness of the top voxel or adds the thickness of the top voxel to the voxel below if the thickness is less than 0.1 meters.\n# AtlansApi.shift_up — Method.\nshift_up(\n    thickness::Vector{Number},\n    strat::Vector{Number},\n    litho::Vector{Number},\n    surface::Number,\n    modelbase::Number\n)\nShift the top level of a voxelstack up to the surface level. This function increases the thickness of the top voxel or adds a new voxel with the appropriate thickness.\n# AtlansApi.surcharge_netcdf — Method.\nsurcharge_netcdf(thickness::Raster)\nCreate a temporary NetCDF Dataset for the surcharge to apply in Atlantis based on a Raster dataset of the surcharge thickness.\n# Base.write — Method.\nwrite(\n    result::SurchargeResult,\n    path_initial::AbstractString,\n    path_remaining::AbstractString\n)\nWrite the initial and remaining surcharge results to tif files."
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "AtlansApi.jl",
-    "section": "",
-    "text": "This is the general information of AtlansApi.jl"
-  },
-  {
     "objectID": "src/index.html",
     "href": "src/index.html",
     "title": "API Reference",
@@ -75,25 +117,5 @@
     "title": "API Reference",
     "section": "",
     "text": "Modules = [AtlansApi]\nOrder   = [:function]"
-  },
-  {
-    "objectID": "usage/index.html",
-    "href": "usage/index.html",
-    "title": "Usage",
-    "section": "",
-    "text": "This is shows the usage\n\n# Some test code cell\nusing AtlansApi\n\nAtlansApi.GeoTop\n\nAtlansApi.GeoTop",
-    "crumbs": [
-      "Usage"
-    ]
-  },
-  {
-    "objectID": "background/index.html",
-    "href": "background/index.html",
-    "title": "Background",
-    "section": "",
-    "text": "This is some background on the AtlansApi",
-    "crumbs": [
-      "Background"
-    ]
   }
 ]
