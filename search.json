@@ -21,7 +21,7 @@
     "href": "usage/data.html",
     "title": "Input data",
     "section": "",
-    "text": "GeoTOP (3D voxelmodel)\nTypically, AtlansApi uses the 3D voxelmodel GeoTOP as the subsurface input.\n\n\nSurface level\nAlgemeen Hoogtebestand Nederland (AHN).",
+    "text": "The settlement calculations done by AtlansApi rely on two sources of input data: (1) a 3D voxelmodel, characterizing the geological and lithological buildup, and (2) a surface level grid for the present-day land elevation.\nIn the Netherlands, 3D voxelmodels are created by the TNO Geological Survey. Input voxelmodels must be in a standard x,y,z grid with and have standardized codes for the geological units and lithological classes which are used for parameterizing a run in Atlantis. AtlansApi uses GeoTOP (see explanation below) as the default voxelmodel input but it is possible to use a different (local) input model, as long as these contain the same standardized codes for geology and lithology.\n\nGeoTOP (3D voxelmodel)\nTypically, AtlansApi uses the 3D voxelmodel GeoTOP as the subsurface input.\n\n\n\nSpatial coverage of the GeoTOP model.\n\n\n\n\nSurface level\nAlgemeen Hoogtebestand Nederland (AHN).",
     "crumbs": [
       "Usage",
       "Input data"
@@ -36,6 +36,17 @@
     "crumbs": [
       "Usage",
       "Example API payload"
+    ]
+  },
+  {
+    "objectID": "usage/run_local.html",
+    "href": "usage/run_local.html",
+    "title": "Run AtlansApi locally",
+    "section": "",
+    "text": "AtlansApi can be tested on a local machin. Assuming you have the Julia programming language installed and the AtlansApi repository cloned locally, this can be done by starting an instance of localhost server and using any API testing tool (e.g. Postman). The AtlansApi repository contains a script run_server.jl which can start a localhost server instance. Start the server by typing the following Powershell command from the repository folder:\njulia --project \"run_server.jl\"\nStarting server on http://127.0.0.1:8081\n[ Info: Listening on: 127.0.0.1:8081, thread id: 1\nNow that a server connection has been established and AtlansApi is “listening” for incoming requests, you can open a new terminal and start a Julia session. The code snippet below can be used as the request to test AtlansApi. This uses AtlansApi.SAMPLE_PAYLOAD which is the same payload as the example features from the previous page. Running the code\nusing AtlansApi\nusing HTTP\n\npayload = AtlansApi.SAMPLE_PAYLOAD\nurl = \"http://127.0.0.1:8081/run\"\nheaders = [\"Content-Type\" =&gt; \"application/json\"]\nHTTP.post(url, headers, payload)\nHTTP.Messages.Response:\n\"\"\"\nHTTP/1.1 200 OK\nTransfer-Encoding: chunked\n\n{\"id\":\"a1d6aeb4-f9b8-4b9f-be97-91c2e7d917e1\",\"initial\":\"./docker/output/a1d6aeb4-f9b8-4b9f-be97-91c2e7d917e1/initial.tif\",\"remaining\":\"./docker/output/a1d6aeb4-f9b8-4b9f-be97-91c2e7d917e1/remaining.tif\"}\"\"\"\nExample result of “initial.tif” and “remaining.tif”",
+    "crumbs": [
+      "Usage",
+      "Run AtlansApi locally"
     ]
   },
   {

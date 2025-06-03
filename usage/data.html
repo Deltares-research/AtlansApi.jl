@@ -333,6 +333,12 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Example API payload</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../usage/run_local.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Run AtlansApi locally</span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -371,9 +377,17 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>The settlement calculations done by <code>AtlansApi</code> rely on two sources of input data: (1) a 3D voxelmodel, characterizing the geological and lithological buildup, and (2) a surface level grid for the present-day land elevation.</p>
+<p>In the Netherlands, 3D voxelmodels are created by the TNO Geological Survey. Input voxelmodels must be in a standard x,y,z grid with and have standardized codes for the geological units and lithological classes which are used for parameterizing a run in Atlantis. <code>AtlansApi</code> uses <strong>GeoTOP</strong> (see explanation below) as the default voxelmodel input but it is possible to use a different (local) input model, as long as these contain the same standardized codes for geology and lithology.</p>
 <section id="geotop-3d-voxelmodel" class="level1">
 <h1>GeoTOP (3D voxelmodel)</h1>
 <p>Typically, <code>AtlansApi</code> uses the 3D voxelmodel <a href="https://www.broloket.nl/toelichting/geotop">GeoTOP</a> as the subsurface input.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../_static/images/cover_geotop.png" class="img-fluid figure-img"></p>
+<figcaption>Spatial coverage of the GeoTOP model.</figcaption>
+</figure>
+</div>
 </section>
 <section id="surface-level" class="level1">
 <h1>Surface level</h1>
