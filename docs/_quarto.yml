@@ -43,6 +43,7 @@ website:
         - usage/index.qmd
         - usage/data.qmd
         - usage/example.qmd
+        - usage/run_local.qmd
 
 format:
   html:

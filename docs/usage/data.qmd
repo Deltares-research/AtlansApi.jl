@@ -2,10 +2,15 @@
 title: "Input data"
 ---
 
+The settlement calculations done by `AtlansApi` rely on two sources of input data: (1) a 3D voxelmodel, characterizing the geological and lithological buildup, and (2) a surface level grid for the present-day land elevation. 
+
+In the Netherlands, 3D voxelmodels are created by the TNO Geological Survey. Input voxelmodels must be in a standard x,y,z grid with  and have standardized codes for the geological units and lithological classes which are used for parameterizing a run in Atlantis. `AtlansApi` uses **GeoTOP** (see explanation below) as the default voxelmodel input but it is possible to use a different (local) input model, as long as these contain the same standardized codes for geology and lithology. 
+
 # GeoTOP (3D voxelmodel)
 
 Typically, `AtlansApi` uses the 3D voxelmodel [GeoTOP](https://www.broloket.nl/toelichting/geotop) as the subsurface input.
 
+![Spatial coverage of the GeoTOP model.](../_static/images/cover_geotop.png)
 
 # Surface level
 
