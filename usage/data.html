@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.31">
+<meta name="generator" content="quarto-1.7.32">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -37,14 +37,14 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-2fef5ea3f8957b3e4ecc936fc74692ca.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-4c566427df3bab355605704658c58164.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-d4e7164801876f6d2fd3aa15ac80b4c8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-4c566427df3bab355605704658c58164.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-b2309f0ae3edc1d47d1ebc1e7251cb73.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-b35a14ae1eb8912dbb9168c9d9a02c77.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-b2309f0ae3edc1d47d1ebc1e7251cb73.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -381,7 +381,8 @@ ul.task-list li input[type="checkbox"] {
 <p>In the Netherlands, 3D voxelmodels are created by the TNO Geological Survey. Input voxelmodels must be in a standard x,y,z grid with and have standardized codes for the geological units and lithological classes which are used for parameterizing a run in Atlantis. <code>AtlansApi</code> uses <strong>GeoTOP</strong> (see explanation below) as the default voxelmodel input but it is possible to use a different (local) input model, as long as these contain the same standardized codes for geology and lithology.</p>
 <section id="geotop-3d-voxelmodel" class="level1">
 <h1>GeoTOP (3D voxelmodel)</h1>
-<p>Typically, <code>AtlansApi</code> uses the 3D voxelmodel <a href="https://www.broloket.nl/toelichting/geotop">GeoTOP</a> as the subsurface input.</p>
+<p><a href="https://www.broloket.nl/toelichting/geotop"><strong>GeoTOP</strong></a> is a 3D voxelmodel which is part of the “Basisregistratie Ondergrond” (BRO), the Dutch key registry for subsurface data. GeoTOP depicts the 3D subsurface buildup in terms of stratigraphy and lithology in voxels of 100 x 100 x 0.5 meter, from the surface level up to a depth of -50 m NAP (Dutch Ordnance Datum). Based on statistical analyses, primaly using borehole data, each voxel is asigned the expected composition of the subsurface (e.g.&nbsp;sand, gravel, clay or organic). The resolution of GeoTOP makes it suitable to use at a sub-regional scale, comparable to a 1:50.000 scale, which can support the planning phase of construction projects.</p>
+<p>Currently, GeoTOP does not cover the entire Netherlands but complete national coverage is ongoing work. The image below shows the spatial coverage up untill 2023. Recently in 2024, the western part of Flevoland (around Almere) was also added to support housing developments in the area. Additional information on GeoTOP and full description of the methodology can be found <a href="https://www.broloket.nl/sites/default/files/docs/geotop/R11655%20Totstandkomingsrapport%20GeoTOP.pdf">here</a>.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="../_static/images/cover_geotop.png" class="img-fluid figure-img"></p>
