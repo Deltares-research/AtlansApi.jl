@@ -11,7 +11,11 @@ The Atlantis subsidence model is developed and maintained by [Deltares](https://
 
 # Connection to Digital Twin software
 
-The capability of `AtlansApi` to run Atlantis via API requests makes it possible to directly incorporate settlement projections within Digital Twin software.
+The capability of `AtlansApi` to run Atlantis via API requests makes it possible to directly incorporate settlement projections within Digital Twin software. A Digital Twin is a powerful tool that can be applied to a range of topics, such as housing development. In various sectors, a realistic representation of an object in relation to its context has proven to provide a faster and deeper understanding for stakeholders. Digital Twins can help to better and more quickly visualize subsurface conditions and their impact on related functions and developments.
+
+This information enables stakeholders to be more aware of the implications of the subsurface and to use this knowledge in their planning and decision-making.
+
+Furthermore, Digital Twins can be part of a policy-informed knowledge platform. Such a platform can visualize future-oriented, interconnected developments and policy goals. It can serve as a collaborative environment for stakeholders to explore “what if” scenarios, allowing for more coherent and well-informed decisions across sectors. The Digital Twin then evolves from being a mere representation of the physical world into a tool for collaboration, policy making, and shared problem-solving.
 
 # Use of public subsurface data
 
