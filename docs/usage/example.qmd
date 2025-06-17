@@ -3,10 +3,19 @@ title: "Example API payload"
 ---
 
 
-Location of some example features in the Almere Pampus area.
+AtlansApi allows a user to submit polygons for the area(s) of interest where settlement calculations are done for specified loading thicknesses. Additionally, a desired groundwater level can be specified, which is a uniform groundwater level for the area of interest in meters +NAP. These can be submitted as a JSON object by sending a `POST` request with `application/json`. A user can submit one or more polygons and each polygon should contain the attributes "id" and "dikte". The map below shows the locations of two example polygons near the city of Almere. Hovering your mouse over one the polygons shows that they contain both the required attributes and the resulting JSON structure for the `POST` request is shown below the map.
 
 <iframe src="../_static/map/features.html" width="100%" height="600px" style="border:none;"></iframe>
 
+### API Endpoint and request body
+
+The `POST` request should be submitted to the following endpoint:
+
+```
+POST /run
+```
+
+and the `POST` body should have the following structure:
 
 ```json
 {
@@ -69,3 +78,41 @@ Location of some example features in the Almere Pampus area.
     }
 }
 ``` 
+
+### Field explanation
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `gw` | `number` | Groundwater level for the area of interest, in m above/below NAP |
+| `geojson` | `object` | [GeoJSON FeatureCollection](https://datatracker.ietf.org/doc/html/rfc7946) |
+| `properties.id` | `integer` | Unique identifier for each area |
+| `properties.dikte` | `number` | Thickness (in m) for the area |
+| `geometry` | `Polygon` | Coordinates that define the boundary of the area |
+| `crs` | `object` | Coordinate Reference System (in this case EPSG:28992 / RD) |
+
+
+🔹Notes:
+
+- All coordinates must be in **Rijksdriehoekstelsel (RD) coordinates** (EPSG:28992).
+- The `dikte` can be defined individually for each polygon.
+- The `id` in properties is used for internal identification.
+
+
+### Response
+
+A succesful request responds with a JSON which contains a hash id of the user request and paths to tif output that contain the resulting subsidence, due to settlement, for two periods: "initial" and "remaining". Below is an example JSON response: 
+
+```json
+{
+    "id":"a1d6aeb4-f9b8-4b9f-be97-91c2e7d917e1",
+    "initial":"./docker/output/a1d6aeb4-f9b8-4b9f-be97-91c2e7d917e1/initial.tif",
+    "remaining":"./docker/output/a1d6aeb4-f9b8-4b9f-be97-91c2e7d917e1/remaining.tif"
+}
+```
+
+### Response status codes:
+
+| Code | Meaning |
+|---------|---------|
+| 200 | Success |
+| 400 | Bad request (for example, missing `gw` or `geojson`) |

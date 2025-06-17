@@ -3,7 +3,15 @@ title: "Run AtlansApi locally"
 engine: julia
 ---
 
-`AtlansApi` can be tested on a local machin. Assuming you have the [Julia programming language](https://julialang.org/) installed and the `AtlansApi` repository cloned locally, this can be done by starting an instance of localhost server and using any API testing tool (e.g. Postman). The `AtlansApi` repository contains a script `run_server.jl` which can start a localhost server instance. Start the server by typing the following Powershell command from the repository folder:
+`AtlansApi` can be tested on a local machine. Assuming you have the [Julia programming language](https://julialang.org/) installed and the `AtlansApi` repository cloned locally, first instantiate the project (i.e. installing dependencies) by:
+
+```powershell
+julia --project -e "using Pkg; Pkg.instantiate()"
+```
+
+Now, `AtlansApi` can be tested by starting an instance of localhost server and using a local coding session or any API testing tool (e.g. Postman). Below, demonstrates how to run `AtlansApi` in a local coding session.
+
+`AtlansApi` contains a script `run_server.jl` which can start a localhost server instance. Start the server by typing the following Powershell command from the repository folder:
 
 ```powershell
 julia --project "run_server.jl"

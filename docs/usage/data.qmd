@@ -8,7 +8,9 @@ In the Netherlands, 3D voxelmodels are created by the TNO Geological Survey. Inp
 
 # GeoTOP (3D voxelmodel)
 
-Typically, `AtlansApi` uses the 3D voxelmodel [GeoTOP](https://www.broloket.nl/toelichting/geotop) as the subsurface input.
+[**GeoTOP**](https://www.broloket.nl/toelichting/geotop) is a 3D voxelmodel which is part of the "Basisregistratie Ondergrond" (BRO), the Dutch key registry for subsurface data. GeoTOP depicts the 3D subsurface buildup in terms of stratigraphy and lithology in voxels of 100 x 100 x 0.5 meter, from the surface level up to a depth of -50 m NAP (Dutch Ordnance Datum). Based on statistical analyses, primaly using borehole data, each voxel is asigned the expected composition of the subsurface (e.g. sand, gravel, clay or organic). The resolution of GeoTOP makes it suitable to use at a sub-regional scale, comparable to a 1:50.000 scale, which can support the planning phase of construction projects. 
+
+Currently, GeoTOP does not cover the entire Netherlands but complete national coverage is ongoing work. The image below shows the spatial coverage up untill 2023. Recently in 2024, the western part of Flevoland (around Almere) was also added to support housing developments in the area. Additional information on GeoTOP and full description of the methodology can be found [here](https://www.broloket.nl/sites/default/files/docs/geotop/R11655%20Totstandkomingsrapport%20GeoTOP.pdf).
 
 ![Spatial coverage of the GeoTOP model.](../_static/images/cover_geotop.png)
 
